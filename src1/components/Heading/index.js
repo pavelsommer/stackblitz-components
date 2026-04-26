@@ -7,26 +7,28 @@ export default (initializer) => {
 </h1>
 <hr />`);
 
-  const titleEl = (() => {
+  const titleFragment = (() => {
     const template = document.createElement('span');
 
-    return (component, value) => {
+    return (component, options) => {
       const element = template.cloneNode(true);
-      element.slot = 'title';
-      element.textContent = value;
+
+      options?.slot && (element.slot = options.slot);
+      options?.text && (element.textContent = options.text);
 
       return {
         element,
-        setText: (value) => {
-          if (element.textContent === value) return;
+        getText: () => element.textContent,
+        setText: (text) => {
+          if (element.textContent === text) return;
 
-          element.textContent = value;
+          element.textContent = text;
 
-          component.dispatchEvent(new CustomEvent('value-changed', {
+          element.dispatchEvent(new CustomEvent('value-changed', {
             detail: {
               target: element,
-              key: 'title',
-              value
+              key: 'text',
+              value: text
             }
           }));
         },
@@ -37,16 +39,31 @@ export default (initializer) => {
   return class extends createComponent(template, initializer) {
     static observedAttributes = ['data-title'];
 
-    #titleEl = null;
+    #Title = null;
 
-    setTitle = null;
+    get Title() {
+      return this.#Title;
+    }
 
     ready() {
-      ({ element: this.#titleEl, setText: this.setTitle } = titleEl(this,
-        this.dataset.title || ''
-      ));
+      this.#Title = titleFragment(this,
+        {
+          text: this.dataset.title || '',
+          slot: 'title'
+        }
+      );
 
-      this.appendChild(this.#titleEl);
+      this.#Title.element.addEventListener('value-changed', event => {
+        this.dispatchEvent(new CustomEvent('value-changed', {
+          detail: {
+            target: this.#Title,
+            key: 'title',
+            value: event.detail.value
+          }
+        }));
+      });
+
+      this.appendChild(this.#Title.element);
     }
   }
 }
