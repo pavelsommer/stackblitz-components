@@ -34,8 +34,12 @@ export default (props) => {
       super();
 
       this.#signal = this.#abortController.signal;
+
+      props = props || {};
+      Object.assign(props, this.dataset);
+
       this.#values = new Proxy(
-        props || this.dataset || {},
+        props,
         StateBase.#handler(this)
       );
     }
