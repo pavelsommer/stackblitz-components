@@ -18,6 +18,11 @@ export default (initializer) => {
 
       return {
         element,
+
+        setStyle: (style) => {
+          Object.assign(element.style, style);
+        },
+
         getText: () => element.textContent,
         setText: (text) => {
           if (element.textContent === text) return;
@@ -42,7 +47,23 @@ export default (initializer) => {
     #Title = null;
 
     get Title() {
-      return this.#Title;
+      return this.#Title.getText();
+    }
+
+    set Title(value) {
+      this.#Title.setText(value);
+    }
+
+    set Style(value) {
+      value?.title && (this.#Title.setStyle(value.title));
+
+      if (value?.root) {
+        const element = this.shadowRoot.querySelector('h1');
+
+        if (element) {
+          Object.assign(element.style, value.root);
+        }
+      }
     }
 
     ready() {
@@ -65,5 +86,16 @@ export default (initializer) => {
 
       this.appendChild(this.#Title.element);
     }
-  }
-}
+
+    attributeChangedCallback(name, oldValue, newValue) {
+      if (!this.shadowRoot) return;
+
+      switch (name) {
+        case 'data-title':
+          this.Title = newValue;
+
+          break;
+      }
+    }
+  };
+};

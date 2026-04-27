@@ -9,13 +9,23 @@ customElements.define('app-state', AppState);
 customElements.define('my-heading', Heading((component) => {
   const state = document.querySelector('app-state');
 
-  if (state) component.Title.setText(state.values.title);
+  if (state) component.Title = state.values.title;
+
+  component.Style = {
+    title: {
+      color: 'yellow',
+    },
+
+    root: {
+      backgroundColor: 'blue'
+    }
+  };
 
   state?.listen('prop-changed', event => {
     switch (event.detail.key) {
       case 'title':
 
-        component.Title.setText(event.detail.value);
+        component.Title = event.detail.value;
 
         break;
     }
