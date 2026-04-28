@@ -1,5 +1,3 @@
-import createHeading from "./components/Heading";
-import Toolbar from "./components/Toolbar";
+import createButton from "./components/Button";
 
-customElements.define("my-heading", createHeading());
-customElements.define("my-toolbar", Toolbar);
+customElements.define("my-button", createButton());

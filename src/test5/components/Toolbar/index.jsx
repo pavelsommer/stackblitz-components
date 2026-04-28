@@ -2,24 +2,24 @@ import { render } from "solid-js/web";
 import { createSignal } from "solid-js";
 
 function HelloWorld(props) {
-  return <div>Hello World! {props.text}</div>;
+	return <div>Hello World! {props.text}</div>;
 }
 
 export default class extends HTMLElement {
-  #dispose = null;
+	#dispose = null;
 
-  constructor() {
-    super();
-    this.attachShadow({ mode: "open" });
-  }
+	constructor() {
+		super();
+		this.attachShadow({ mode: "open" });
+	}
 
-  connectedCallback() {
-    const [text, setText] = createSignal(this.dataset.text ?? "");
+	connectedCallback() {
+		const [text, setText] = createSignal(this.dataset.text ?? "");
 
-    this.#dispose = render(() => <HelloWorld text={text()} />, this.shadowRoot);
-  }
+		this.#dispose = render(() => <HelloWorld text={text()} />, this.shadowRoot);
+	}
 
-  disconnectedCallback() {
-    this.#dispose?.();
-  }
+	disconnectedCallback() {
+		this.#dispose?.();
+	}
 }
