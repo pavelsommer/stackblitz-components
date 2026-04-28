@@ -1,7 +1,10 @@
-import { defineConfig } from 'vite';
-import tailwindcss from '@tailwindcss/vite';
-import solidPlugin from 'vite-plugin-solid';
+import { defineConfig } from "vite";
+import tailwindcss from "@tailwindcss/vite";
+import solid from "vite-plugin-solid";
 
 export default defineConfig({
-  plugins: [solidPlugin(), tailwindcss()],
+  plugins: [
+    solid({ include: ["src/test5/components/**/*.jsx"] }),
+    tailwindcss(),
+  ],
 });
