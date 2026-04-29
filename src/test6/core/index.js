@@ -1,73 +1,87 @@
-const createState = (eventTarget, props = {}) => {
-	const handler = {
-		set: (target, key, value, receiver) => {
-			const oldValue = target[key];
-			const result = Reflect.set(target, key, value, receiver);
+const createState = (props = {}) => {
+  const eventTarget = new EventTarget();
+  const handler = {
+    set: (target, key, value, receiver) => {
+      const oldValue = target[key];
+      const result = Reflect.set(target, key, value, receiver);
 
-			eventTarget.dispatchEvent(
-				new CustomEvent("prop-changed", {
-					detail: {
-						target,
-						key,
-						oldValue,
-						value,
-						receiver,
-					},
-				}),
-			);
+      eventTarget.dispatchEvent(
+        new CustomEvent("prop-changed", {
+          detail: {
+            target,
+            key,
+            oldValue,
+            value,
+            receiver,
+          },
+        }),
+      );
 
-			return result;
-		},
-	};
+      return result;
+    },
+  };
 
-	const proxy = new Proxy(props, handler);
+  const proxy = new Proxy(props, handler);
 
-	return {
-		proxy,
-		eventTarget,
-	};
+  return {
+    props: proxy,
+    addEventListener: (listener, abortSignal) =>
+      eventTarget.addEventListener("prop-changed", listener, {
+        signal: abortSignal,
+      }),
+  };
 };
 
-const createComponent = (template) => {
-	return class extends HTMLElement {
-		#abortController = new AbortController();
-		#abortSignal = null;
+const createComponent = (template, state) => {
+  return class extends HTMLElement {
+    #abortController = new AbortController();
+    #abortSignal = null;
 
-		refs = {};
+    refs = {};
+    props = null;
 
-		get abortSignal() {
-			return this.#abortSignal;
-		}
+    get abortSignal() {
+      return this.#abortSignal;
+    }
 
-		constructor() {
-			super();
-			this.attachShadow({ mode: "open" });
-		}
+    constructor() {
+      super();
+      this.attachShadow({ mode: "open" });
+    }
 
-		connectedCallback() {
-			this.#abortSignal = this.#abortController.signal;
+    connectedCallback() {
+      this.#abortSignal = this.#abortController.signal;
 
-			const { fragment, ...refs } = template();
+      const { fragment, ...refs } = template();
 
-			this.shadowRoot.appendChild(fragment);
-			this.refs = refs;
+      if (state) {
+        const { props, addEventListener } = state();
 
-			this.connectedCompleteCallback();
-		}
+        this.props = props;
 
-		disconnectedCallback() {
-			this.#abortController.abort();
-			this.#abortController = new AbortController();
+        addEventListener(
+          (event) => this.stateChangedCallback(event.detail),
+          this.#abortSignal,
+        );
+      }
 
-			this.#abortSignal = this.#abortController.signal;
-		}
+      this.shadowRoot.appendChild(fragment);
+      this.refs = refs;
 
-		connectedCompleteCallback() {}
+      this.connectedCompleteCallback();
+    }
 
-		listen(type, listener) {
-			this.addEventListener(type, listener, { signal: this.#abortSignal });
-		}
-	};
+    disconnectedCallback() {
+      this.#abortController.abort();
+      this.#abortController = new AbortController();
+
+      this.#abortSignal = this.#abortController.signal;
+    }
+
+    connectedCompleteCallback() {}
+
+    stateChangedCallback(event) {}
+  };
 };
 
 export { createComponent, createState };
