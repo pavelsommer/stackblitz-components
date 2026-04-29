@@ -1,10 +1,14 @@
 export default (template) => {
 	return class extends HTMLElement {
 		#abortController = new AbortController();
-
-		#signal = null;
+		#abortSignal = null;
+		#template = null;
 
 		initializer = null;
+
+		get abortSignal() {
+			return this.#abortSignal;
+		}
 
 		constructor() {
 			super();
@@ -12,9 +16,9 @@ export default (template) => {
 		}
 
 		connectedCallback() {
-			this.#signal = this.#abortController.signal;
+			this.#abortSignal = this.#abortController.signal;
 
-			this.shadowRoot.appendChild(template.content.cloneNode(true));
+			this.shadowRoot.appendChild(template.element);
 
 			this.connectedCompleteCallback();
 		}
@@ -23,13 +27,13 @@ export default (template) => {
 			this.#abortController.abort();
 			this.#abortController = new AbortController();
 
-			this.#signal = this.#abortController.signal;
+			this.#abortSignal = this.#abortController.signal;
 		}
 
 		connectedCompleteCallback() {}
 
 		listen(type, listener) {
-			this.addEventListener(type, listener, { signal: this.#signal });
+			this.addEventListener(type, listener, { signal: this.#abortSignal });
 		}
 	};
 };

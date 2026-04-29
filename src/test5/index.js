@@ -17,3 +17,13 @@ customElements.define(
 	"x-button",
 	createButton(() => state),
 );
+
+// const useTemplate = (() => {
+// 	const template = document.createElement("template");
+
+// 	template.setHTMLUnsafe(
+// 		`<h1>Test</h1><hr /><my-button></my-button><x-button></x-button>`,
+// 	);
+
+// 	return () => template.content.cloneNode(true);
+// })();
