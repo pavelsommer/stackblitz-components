@@ -3,9 +3,6 @@ import headingTemplate from "./templates/Heading";
 
 import Heading from "./components/Heading";
 
-const state1 = () =>
-  createState({
-    value1: "",
-  });
+const state1 = () => createState({});
 
 customElements.define("my-heading", Heading(state1));

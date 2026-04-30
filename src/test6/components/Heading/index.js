@@ -1,36 +1,38 @@
 import { createComponent } from "./../../core";
 
 const template = (() => {
-  const template = document.createElement("template");
+	const template = document.createElement("template");
 
-  template.setHTMLUnsafe(`<h1>Hello!</h1><hr />`);
+	template.setHTMLUnsafe(`<h1>Skeleton!</h1><hr />`);
 
-  return () => {
-    const fragment = template.content.cloneNode(true);
+	return () => {
+		const fragment = template.content.cloneNode(true);
 
-    return {
-      fragment,
-      headingEl: fragment.querySelector("h1"),
-    };
-  };
+		const h1 = fragment.querySelector("h1");
+
+		return {
+			fragment,
+			headingEl: h1,
+			text: (value) => {
+				if (!value) return h1.textContent;
+
+				h1.textContent = value;
+			},
+		};
+	};
 })();
 
 export default (state) => {
-  return class extends createComponent(template, state) {
-    get text() {
-      return this.refs.headingEl.textContent;
-    }
+	return class Self extends createComponent(template, state) {
+		static #observedAttributes = ["data-text"];
 
-    set text(value) {
-      this.refs.headingEl.textContent = value;
-    }
+		static get observedAttributes() {
+			return Self.#observedAttributes;
+		}
 
-    connectedCompleteCallback() {
-      this.refs.headingEl.textContent = "Hello, StackBlitz!";
-    }
-
-    stateChangedCallback(event) {
-      console.log(event.key);
-    }
-  };
+		connectedCompleteCallback() {
+			super.connectedCompleteCallback();
+			this.refs?.text?.(this.props?.text ?? this.dataset.text ?? "");
+		}
+	};
 };
