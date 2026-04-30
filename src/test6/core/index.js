@@ -36,8 +36,6 @@ const createState = (props = {}) => {
 			if (oldValue === value) return true;
 			const result = Reflect.set(target, key, value, receiver);
 
-			console.log(target, key, value, receiver);
-
 			eventTarget.dispatchEvent(
 				new CustomEvent("prop-changed", {
 					detail: {
