@@ -1,3 +1,14 @@
+class component {
+  static assign(target, source) {
+    const { style, dataset, ...props } = source;
+
+    style && Object.assign(target.style, style);
+    dataset && Object.assign(target.dataset, dataset);
+
+    Object.assign(target, props);
+  }
+}
+
 const createTemplate = (innerHTML) => {
   const template = document.createElement("template");
 
@@ -94,42 +105,119 @@ const createComponent = (template) => {
   };
 };
 
-const template = createTemplate(`<div><input type="text" /></div>`);
-
 class MyTextBox extends HTMLElement {
-  props = {};
+  static #template = (() => {
+    const template = createTemplate(`<div><input type="text" /></div>`);
 
-  constructor() {
-    super();
-
-    this.attachShadow({ mode: "open" });
-  }
-
-  connectedCallback() {
-    typeof this.dataset.text1 !== "undefined" &&
-      (this.props["text1"] = this.dataset.text1);
-
-    const { fragment: fragment1, ...template1 } = useTemplate(
-      template,
-      (fragment) => ({
+    return () =>
+      useTemplate(template, (fragment) => ({
         div: fragment.children[0],
         input: fragment.children[0].children[0],
-      }),
-    );
+      }));
+  })();
 
-    Object.assign(template1.div.style, {
-      padding: "10px",
-      border: "2px solid",
-    });
+  connectedCallback() {
+    const { fragment, ...template } = MyTextBox.#template();
 
-    template1.input.value = this.props["text1"] ?? "";
-    template1.input.addEventListener("input", (event) => {
-      this.props["text1"] !== event.target.value &&
-        (this.props["text1"] = event.target.value);
-    });
+    template.input.value = this.dataset.value ?? "";
+    template.input.addEventListener("input", (event) => {});
 
-    this.shadowRoot.append(fragment1);
+    this.append(fragment);
+  }
+}
+
+class MyDashboard extends HTMLElement {
+  static #template = (() => {
+    const template = createTemplate(`<h1>hello!</h1><my-textbox></my-textbox>`);
+
+    return () =>
+      useTemplate(template, (fragment) => ({
+        h1: fragment.children[0],
+        textBox: fragment.children[1],
+      }));
+  })();
+
+  connectedCallback() {
+    const { fragment, ...template } = MyDashboard.#template();
+
+    template.h1.textContent = this.dataset.text ?? "";
+    template.textBox.dataset.value = this.dataset.value ?? "";
+
+    this.append(fragment);
+  }
+}
+
+class MyItem extends HTMLElement {
+  static #template = (() => {
+    const template = createTemplate(`<li></li>`);
+
+    return () =>
+      useTemplate(template, (fragment) => ({
+        li: fragment.children[0],
+      }));
+  })();
+
+  connectedCallback() {
+    const { fragment, ...template } = MyItem.#template();
+
+    template.li.textContent = this.dataset.text;
+
+    this.append(fragment);
+  }
+}
+
+class MyList extends HTMLElement {
+  static #container = (() => {
+    const template = createTemplate(`<h1>List</h1><hr /><ul></ul>`);
+
+    return () =>
+      useTemplate(template, (fragment) => ({
+        ul: fragment.children[2],
+      }));
+  })();
+
+  static #item = (() => {
+    const template = createTemplate(`<my-item></my-item>`);
+
+    return (callback) =>
+      useTemplate(template, (fragment) => {
+        const myItem = fragment.children[0];
+        const setText = (text) => (myItem.dataset.text = text);
+        const setStyle = (style) => Object.assign(myItem.style, style);
+
+        callback && callback({ myItem, setText, setStyle });
+
+        return {
+          myItem,
+        };
+      });
+  })();
+
+  connectedCallback() {
+    const { fragment, ...container } = MyList.#container();
+    const itemFragment = document.createDocumentFragment();
+
+    for (let i = 0; i < 400; i++) {
+      const { fragment, ...item } = MyList.#item(
+        ({ myItem, setText, setStyle }) => {
+          setText(`Item ${i}`);
+          setStyle({
+            fontSize: "1.3rem",
+            fontWeight: "700",
+            color: "blue",
+          });
+        },
+      );
+
+      itemFragment.append(fragment);
+    }
+
+    container.ul.append(itemFragment);
+    this.append(fragment);
   }
 }
 
 customElements.define("my-textbox", MyTextBox);
+customElements.define("my-item", MyItem);
+customElements.define("my-dashboard", MyDashboard);
+customElements.define("my-list", MyList);
