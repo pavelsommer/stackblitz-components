@@ -1,27 +1,28 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<title>Home</title>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link
-			rel="preload"
-			href="./src/test7/index.css"
-			as="style"
-			onload="
-				this.onload = null;
-				this.rel = 'stylesheet';
-			"
-		/>
-		<noscript><link rel="stylesheet" href="./src/test7/index.css" /></noscript>
-		<script type="module" src="./src/test7/index.js"></script>
-	</head>
-	<body class="app">
-		<header></header>
-		<aside></aside>
-		<main>
-			<my-textbox data-value="ahoj"></my-textbox>
-		</main>
-		<footer></footer>
-	</body>
+  <head>
+    <title>Home</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link
+      rel="preload"
+      href="./src/test7/index.css"
+      as="style"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      "
+    />
+    <noscript><link rel="stylesheet" href="./src/test7/index.css" /></noscript>
+    <script type="module" src="./src/solid/index.jsx"></script>
+  </head>
+  <body class="app">
+    <div id="app"></div>
+    <!--<header></header>
+    <aside></aside>
+    <main>
+      <my-textbox data-text1="Ahoj"> </my-textbox>
+    </main>
+    <footer></footer>-->
+  </body>
 </html>
