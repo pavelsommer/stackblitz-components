@@ -135,8 +135,7 @@ class MyTextBox extends HTMLElement {
 
 		template.input.value = this.dataset.value ?? "";
 		template.input.addEventListener("input", (event) => {
-			this.dataset.id &&
-				(state[`${this.dataset.id}.value`] = event.target.value);
+			this.dataset.id && (state[`${this.dataset.id}.value`] = event.target.value);
 			console.log(state);
 		});
 
@@ -146,20 +145,27 @@ class MyTextBox extends HTMLElement {
 
 class MyDashboard extends HTMLElement {
 	static #template = (() => {
-		const template = createTemplate(`<h1>hello!</h1><my-textbox></my-textbox>`);
+		const template = createTemplate(`<h1>hello!</h1>
+<hr />
+<my-textbox></my-textbox>
+<my-textbox></my-textbox>`);
 
 		return () =>
 			useTemplate(template, (fragment) => ({
 				h1: fragment.children[0],
-				textBox: fragment.children[1],
+				txtBusinessIn: fragment.children[2],
+				txtBusinessName: fragment.children[3],
 			}));
 	})();
 
 	connectedCallback() {
 		const { fragment, ...template } = MyDashboard.#template();
 
-		template.h1.textContent = this.dataset.text ?? "";
-		template.textBox.dataset.value = this.dataset.value ?? "";
+		this.dataset.text && (template.h1.textContent = this.dataset.text);
+		template.txtBusinessIn.dataset.id = "businessIn";
+		template.txtBusinessIn.dataset.value = this.dataset.value ?? "";
+
+		template.txtBusinessName.dataset.id = "businessName";
 
 		this.append(fragment);
 	}
@@ -216,16 +222,14 @@ class MyList extends HTMLElement {
 		const itemFragment = document.createDocumentFragment();
 
 		for (let i = 0; i < 400; i++) {
-			const { fragment, ...item } = MyList.#item(
-				({ myItem, setText, setStyle }) => {
-					setText(`Item ${i}`);
-					setStyle({
-						fontSize: "1.3rem",
-						fontWeight: "700",
-						color: "blue",
-					});
-				},
-			);
+			const { fragment } = MyList.#item(({ myItem, setText, setStyle }) => {
+				setText(`Item ${i}`);
+				setStyle({
+					fontSize: "1.3rem",
+					fontWeight: "700",
+					color: "blue",
+				});
+			});
 
 			itemFragment.append(fragment);
 		}
