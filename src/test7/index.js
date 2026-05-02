@@ -76,49 +76,6 @@ const createState = (props = {}) => {
 	};
 };
 
-const createComponent = (template) => {
-	return class extends HTMLElement {
-		#abortController = new AbortController();
-		#abortSignal = null;
-
-		refs = {};
-		props = {};
-
-		get abortSignal() {
-			return this.#abortSignal;
-		}
-
-		constructor() {
-			super();
-			this.attachShadow({ mode: "open" });
-		}
-
-		connectedCallback() {
-			this.#abortSignal = this.#abortController.signal;
-
-			const { fragment, ...refs } = template();
-			this.refs = refs;
-
-			this.shadowRoot.appendChild(fragment);
-			this.connectedCompleteCallback();
-		}
-
-		disconnectedCallback() {
-			this.#abortController.abort();
-			this.#abortController = new AbortController();
-
-			this.#abortSignal = this.#abortController.signal;
-
-			this.refs = {};
-			this.props = {};
-		}
-
-		connectedCompleteCallback() {}
-
-		attributeChangedCallback(name, oldValue, newValue) {}
-	};
-};
-
 class MyTextBox extends HTMLElement {
 	static #template = (() => {
 		const template = createTemplate(`<div><input type="text" /></div>`);
@@ -130,16 +87,23 @@ class MyTextBox extends HTMLElement {
 			}));
 	})();
 
+	#store = null;
+
 	connectedCallback() {
 		const { fragment, ...template } = MyTextBox.#template();
 
 		template.input.value = this.dataset.value ?? "";
 		template.input.addEventListener("input", (event) => {
-			this.dataset.id && (state[`${this.dataset.id}.value`] = event.target.value);
-			console.log(state);
+			this.dataset.id &&
+				this.#store &&
+				(this.#store[`${this.dataset.id}.value`] = event.target.value);
 		});
 
 		this.append(fragment);
+	}
+
+	useStore(store) {
+		this.#store = store;
 	}
 }
 
@@ -162,9 +126,12 @@ class MyDashboard extends HTMLElement {
 		const { fragment, ...template } = MyDashboard.#template();
 
 		this.dataset.text && (template.h1.textContent = this.dataset.text);
+
+		template.txtBusinessIn.setStore(state);
 		template.txtBusinessIn.dataset.id = "businessIn";
 		template.txtBusinessIn.dataset.value = this.dataset.value ?? "";
 
+		template.txtBusinessName.setStore(state);
 		template.txtBusinessName.dataset.id = "businessName";
 
 		this.append(fragment);
