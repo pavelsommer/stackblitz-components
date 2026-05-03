@@ -6,22 +6,24 @@
 		<meta name="viewport" content="width=device-width" />
 		<link
 			rel="preload"
-			href="./src/test7/index.css"
+			href="./src/test8/index.css"
 			as="style"
 			onload="
 				this.onload = null;
 				this.rel = 'stylesheet';
 			"
 		/>
-		<noscript><link rel="stylesheet" href="./src/test7/index.css" /></noscript>
-		<script type="module" src="./src/test7/index.js"></script>
+		<noscript><link rel="stylesheet" href="./src/test8/index.css" /></noscript>
+		<script type="module" src="./src/test8/index.js"></script>
 	</head>
 	<body class="app">
-		<header></header>
-		<aside></aside>
-		<main>
-			<my-dashboard></my-dashboard>
-		</main>
-		<footer></footer>
+		<header>
+			<my-sidebar-switch></my-sidebar-switch>
+		</header>
+		<my-sidebar></my-sidebar>
+		<main></main>
+		<footer>
+			<my-sidebar-switch></my-sidebar-switch>
+		</footer>
 	</body>
 </html>
