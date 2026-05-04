@@ -36,13 +36,10 @@ export default class Self extends HTMLElement {
       });
   })();
 
-  template = {};
-
   connectedCallback() {
     const { fragment, ...template } = Self.#template();
 
     template.update(props.collapsed);
-
     template.button.addEventListener("click", () => {
       props.collapsed = !props.collapsed;
     });
