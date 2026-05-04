@@ -1,5 +1,3 @@
-const stateListeners = new WeakMap();
-
 class Component {
 	static assign(target, source) {
 		const { style, dataset, ...props } = source;
@@ -28,8 +26,9 @@ const useTemplate = (template, refs) => {
 	};
 };
 
-const createState = (props = {}) => {
+const createState = (initial = {}) => {
 	const eventTarget = new EventTarget();
+
 	const handler = {
 		set: (target, key, value, receiver) => {
 			const oldValue = target[key];
@@ -38,7 +37,7 @@ const createState = (props = {}) => {
 			const result = Reflect.set(target, key, value, receiver);
 
 			eventTarget.dispatchEvent(
-				new CustomEvent("prop-changed", {
+				new CustomEvent(`prop-changed-${key}`, {
 					detail: {
 						target,
 						key,
@@ -53,23 +52,33 @@ const createState = (props = {}) => {
 		},
 	};
 
-	const proxy = new Proxy(props, handler);
+	const props = new Proxy(initial, handler);
+	const watch = (prop, listener, abortSignal) => {
+		eventTarget.addEventListener(`prop-changed-${prop}`, listener, {
+			signal: abortSignal,
+		});
+	};
 
-	stateListeners.set(proxy, eventTarget);
-
-	return proxy;
+	return {
+		props,
+		watch,
+	};
 };
 
-const watchState = (state, listener, abortSignal) => {
-	const eventTarget = stateListeners.get(state);
+const createReducer = (props, reducer) => {
+	const handler = {
+		get: (target, key, receiver) => {
+			return reducer[key](props[key], props);
+		},
 
-	if (!eventTarget) {
-		throw new Error("Invalid state object");
-	}
+		set: (target, key, value, receiver) => {
+			reducer[key] = value;
 
-	eventTarget.addEventListener("prop-changed", listener, {
-		signal: abortSignal,
-	});
+			return true;
+		},
+	};
+
+	return new Proxy(props, handler);
 };
 
-export { Component, createTemplate, useTemplate, createState };
+export { Component, createTemplate, useTemplate, createState, createReducer };

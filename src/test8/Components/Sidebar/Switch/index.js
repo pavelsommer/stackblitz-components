@@ -1,5 +1,6 @@
-import { createTemplate, useTemplate } from "./../../../Core";
-import state from "./../State";
+import { createTemplate, useTemplate, createState } from "./../../../Core";
+
+const { props, watch } = createState();
 
 export default class Self extends HTMLElement {
 	static #template = (() => {
@@ -19,7 +20,6 @@ export default class Self extends HTMLElement {
 
 	connectedCallback() {
 		const { fragment, ...template } = Self.#template();
-		const { props, subscribe } = state;
 
 		this.template = { ...template };
 
@@ -28,13 +28,8 @@ export default class Self extends HTMLElement {
 			props.collapsed = !props.collapsed;
 		});
 
-		subscribe((event) => {
-			switch (event.detail.key) {
-				case "collapsed":
-					this.template.button.textContent = event.detail.value ? "off" : "on";
-
-					break;
-			}
+		watch("collapsed", (event) => {
+			this.template.button.textContent = event.detail.value ? "off" : "on";
 		});
 
 		this.append(fragment);

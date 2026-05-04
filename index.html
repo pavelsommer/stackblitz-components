@@ -17,13 +17,12 @@
 		<script type="module" src="./src/test8/index.js"></script>
 	</head>
 	<body class="app">
-		<header>
-			<my-sidebar-switch></my-sidebar-switch>
-		</header>
-		<my-sidebar></my-sidebar>
-		<main></main>
-		<footer>
-			<my-sidebar-switch></my-sidebar-switch>
-		</footer>
+		<header></header>
+		<main>
+			<my-state id="state1"></my-state>
+			<my-textbox data-store-id="state1" data-prop-value="firstName"></my-textbox>
+			<my-textbox data-store-id="state1" data-prop-value="lastName"></my-textbox>
+		</main>
+		<footer></footer>
 	</body>
 </html>

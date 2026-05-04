@@ -1,5 +1,4 @@
-import { createTemplate, useTemplate } from "./../../Core";
-import state from "./State";
+import { createTemplate, useTemplate, createState } from "./../../Core";
 
 export default class Self extends HTMLElement {
 	static #template = (() => {
