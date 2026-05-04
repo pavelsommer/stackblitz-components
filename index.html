@@ -1,28 +1,29 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<title>Home</title>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link
-			rel="preload"
-			href="./src/test8/index.css"
-			as="style"
-			onload="
-				this.onload = null;
-				this.rel = 'stylesheet';
-			"
-		/>
-		<noscript><link rel="stylesheet" href="./src/test8/index.css" /></noscript>
-		<script type="module" src="./src/test8/index.js"></script>
-	</head>
-	<body class="app">
-		<header></header>
-		<main>
-			<my-state id="state1"></my-state>
-			<my-textbox data-store-id="state1" data-prop-value="firstName"></my-textbox>
-			<my-textbox data-store-id="state1" data-prop-value="lastName"></my-textbox>
-		</main>
-		<footer></footer>
-	</body>
+  <head>
+    <title>Home</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link
+      rel="preload"
+      href="./src/test8/index.css"
+      as="style"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      "
+    />
+    <noscript><link rel="stylesheet" href="./src/test8/index.css" /></noscript>
+    <script type="module" src="./src/test8/index.js"></script>
+  </head>
+  <body class="app">
+    <header>
+      <my-sidebar-switch></my-sidebar-switch>
+    </header>
+    <my-sidebar></my-sidebar>
+    <main></main>
+    <footer>
+      <my-sidebar-switch></my-sidebar-switch>
+    </footer>
+  </body>
 </html>

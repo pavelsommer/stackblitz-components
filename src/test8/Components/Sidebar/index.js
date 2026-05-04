@@ -1,30 +1,36 @@
-import { createTemplate, useTemplate, createState } from "./../../Core";
+import { createTemplate, useTemplate } from "./../../Core";
+
+import state from "./State";
+
+const { props, watch } = state;
 
 export default class Self extends HTMLElement {
-	static #template = (() => {
-		const template = createTemplate(`<aside></aside>`);
+  static #template = (() => {
+    const template = createTemplate(`<aside></aside>`);
 
-		return () =>
-			useTemplate(template, (fragment) => ({
-				root: fragment.children[0],
-			}));
-	})();
+    return () =>
+      useTemplate(template, (fragment) => {
+        const root = fragment.children[0];
 
-	connectedCallback() {
-		const { fragment, ...template } = Self.#template();
+        return {
+          root,
+        };
+      });
+  })();
 
-		this.append(fragment);
-	}
+  set collapsed(value) {
+    if (value) this.classList.add("collapsed");
+    else this.classList.remove("collapsed");
+  }
 
-	show() {
-		this.classList.remove("collapsed");
-	}
+  connectedCallback() {
+    const { fragment, ...template } = Self.#template();
 
-	hide() {
-		this.classList.add("collapsed");
-	}
+    this.collapsed = props.collapsed;
+    watch("collapsed", (event) => {
+      this.collapsed = event.detail.value;
+    });
 
-	switch() {
-		this.classList.toggle("collapsed");
-	}
+    this.append(fragment);
+  }
 }
