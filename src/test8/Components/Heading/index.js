@@ -24,14 +24,7 @@ export default class Self extends HTMLElement {
 	};
 
 	connectedCallback() {
-		const { fragment, ...template } = Self.#template({
-			h1: {
-				style: {
-					color: "green",
-					fontSize: "3rem",
-				},
-			},
-		});
+		const { fragment, ...template } = Self.#template(this.options);
 
 		this.append(fragment);
 	}

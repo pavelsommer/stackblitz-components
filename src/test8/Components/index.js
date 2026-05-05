@@ -2,8 +2,9 @@ import { createTemplate, useTemplate } from "./../Core";
 
 const template = createTemplate(`<div id="application">
 	<application-header class="application-header"></application-header>
+	<application-sidebar class="application-sidebar" role="navigation"></application-sidebar>
 	<main>
-		<my-heading></my-heading>
+		<application-heading></application-heading>
 	</main>
 	<application-footer class="application-footer"></application-footer>
 </div>`);
@@ -27,12 +28,13 @@ export default class Self extends HTMLElement {
 	}
 
 	async render() {
-		const MyHeading = await import("./Heading/index.js");
-		const MyHeader = await import("./Header/index.js");
-		const MyFooter = await import("./Footer/index.js");
+		const Heading = await import("./Heading/index.js");
+		const Header = await import("./Header/index.js");
+		const Footer = await import("./Footer/index.js");
+		const Sidebar = await import("./Sidebar/index.js");
 
-		customElements.define("application-header", MyHeader.default);
-		customElements.define("application-footer", MyFooter.default);
-		customElements.define("my-heading", MyHeading.default);
+		customElements.define("application-header", Header.default);
+		customElements.define("application-footer", Footer.default);
+		customElements.define("application-heading", Heading.default);
 	}
 }

@@ -18,15 +18,17 @@ export default class Self extends HTMLElement {
 				const button = fragment.children[0];
 				const icon = button.children[0];
 
-				options?.button?.style && Object.assign(button.style, options.button.style);
+				options?.button?.style &&
+					Object.assign(button.style, options.button.style);
+
 				options?.icon?.style && Object.assign(icon.style, options.icon.style);
 
 				return {
 					button,
 					icon1: icon,
 					update: (collapsed) => {
-						collapsed && button.classList.add("sidebar-switch__collapsed");
-						!collapsed && button.classList.remove("sidebar-switch__collapsed");
+						collapsed && button.classList.add("collapsed");
+						!collapsed && button.classList.remove("collapsed");
 					},
 				};
 			});

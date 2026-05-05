@@ -1,3 +1,5 @@
 import { createState } from "./../../../Core";
 
-export default createState({});
+const state1 = createState();
+
+export default state1;
