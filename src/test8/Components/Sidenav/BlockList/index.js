@@ -1,20 +1,57 @@
-import { createTemplate, useTemplate } from "./../../Core";
+import { createTemplate, useTemplate } from "./../../../Core";
 
-const template = createTemplate(`<ul><li>Item 1</li><li>Item 2</li><li>Item 3</li></ul>`);
+const containerTemplate = createTemplate(`<ul></ul>`);
+const itemTemplate = createTemplate(`<li></li>`);
 
 export default class Self extends HTMLElement {
-	static #template = () =>
-		useTemplate(template, (fragment) => {
-			const root = fragment.children[0];
+	static containerTemplate = () =>
+		useTemplate(containerTemplate, (fragment) => {
+			const list = fragment.children[0];
 
 			return {
-				root,
+				list,
 			};
 		});
 
+	static #itemTemplate = (options) =>
+		useTemplate(itemTemplate, (fragment) => {
+			const item = fragment.children[0];
+
+			options && Object.assign(item, options);
+			options?.style && Object.assign(item.style, options.style);
+
+			return {
+				item: item,
+			};
+		});
+
+	#list = null;
+
 	connectedCallback() {
-		const { fragment, ...template } = Self.#template();
+		const { fragment, ...refs } = Self.containerTemplate();
+
+		this.#list = refs.list;
 
 		this.append(fragment);
+		this.renderBlocks();
+	}
+
+	async renderBlocks() {
+		const response = await fetch("https://jsonplaceholder.typicode.com/users");
+		const users = await response.json();
+		const content = document.createDocumentFragment();
+
+		for (const user of users) {
+			const { fragment } = Self.#itemTemplate({
+				textContent: user.name,
+				className: "block",
+			});
+
+			content.append(fragment);
+		}
+
+		this.#list.append(content);
 	}
 }
+
+customElements.define("sidenav-block-list", Self);

@@ -1,13 +1,14 @@
 import { createTemplate, useTemplate } from "./../../Core";
 import state from "./State";
 
-const { props, watch } = state;
+await import("./Switch");
+await import("./../Sidenav/BlockList");
 
-console.log(props);
+const { props, watch } = state;
 
 export default class Self extends HTMLElement {
 	static #template = (() => {
-		const template = createTemplate(``);
+		const template = createTemplate(`<sidenav-block-list></sidenav-block-list>`);
 
 		return () =>
 			useTemplate(template, (fragment) => {
@@ -33,3 +34,5 @@ export default class Self extends HTMLElement {
 		this.append(fragment);
 	}
 }
+
+customElements.define("application-sidebar", Self);

@@ -19,3 +19,5 @@ export default class Self extends HTMLElement {
 		({ props: this.#props, watch: this.#watch } = createState(props));
 	}
 }
+
+customElements.define("application-store", Self);

@@ -1,6 +1,6 @@
 import { createTemplate, useTemplate } from "./../../Core";
 
-const template = createTemplate(``);
+const template = createTemplate(`<application-sidebar-switch></application-sidebar-switch>`);
 
 export default class Self extends HTMLElement {
 	static #template = () =>
@@ -16,3 +16,5 @@ export default class Self extends HTMLElement {
 		this.append(fragment);
 	}
 }
+
+customElements.define("application-footer", Self);

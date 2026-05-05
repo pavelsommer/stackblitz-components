@@ -1,8 +1,6 @@
 import { createTemplate, useTemplate } from "./../../Core";
 
-const template = createTemplate(
-	`<application-sidebar-switch></application-sidebar-switch>`,
-);
+const template = createTemplate(`<application-sidebar-switch></application-sidebar-switch>`);
 
 export default class Self extends HTMLElement {
 	static #template = () =>
@@ -16,12 +14,7 @@ export default class Self extends HTMLElement {
 		const { fragment, ...template } = Self.#template();
 
 		this.append(fragment);
-		this.render();
-	}
-
-	async render() {
-		const SidebarSwitch = await import("../Sidebar/Switch/index");
-
-		customElements.define("application-sidebar-switch", SidebarSwitch.default);
 	}
 }
+
+customElements.define("application-header", Self);

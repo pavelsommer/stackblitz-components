@@ -24,8 +24,10 @@ export default class Self extends HTMLElement {
 	};
 
 	connectedCallback() {
-		const { fragment, ...template } = Self.#template(this.options);
+		const { fragment, ...template } = Self.#template(this.#options);
 
 		this.append(fragment);
 	}
 }
+
+customElements.define("application-heading", Self);

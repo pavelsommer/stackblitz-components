@@ -9,6 +9,13 @@ const template = createTemplate(`<div id="application">
 	<application-footer class="application-footer"></application-footer>
 </div>`);
 
+await Promise.all([
+	import("./Heading/index.js"),
+	import("./Header/index.js"),
+	import("./Footer/index.js"),
+	import("./Sidebar/index.js"),
+]);
+
 export default class Self extends HTMLElement {
 	static #template = () =>
 		useTemplate(template, (fragment) => {
@@ -23,18 +30,7 @@ export default class Self extends HTMLElement {
 		const { fragment, ...template } = Self.#template();
 
 		this.append(fragment);
-
-		this.render();
-	}
-
-	async render() {
-		const Heading = await import("./Heading/index.js");
-		const Header = await import("./Header/index.js");
-		const Footer = await import("./Footer/index.js");
-		const Sidebar = await import("./Sidebar/index.js");
-
-		customElements.define("application-header", Header.default);
-		customElements.define("application-footer", Footer.default);
-		customElements.define("application-heading", Heading.default);
 	}
 }
+
+customElements.define("my-application", Self);

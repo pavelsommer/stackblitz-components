@@ -41,3 +41,5 @@ export default class Self extends HTMLElement {
 		});
 	}
 }
+
+customElements.define("application-textbox", Self);

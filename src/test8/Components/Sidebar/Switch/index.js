@@ -18,8 +18,7 @@ export default class Self extends HTMLElement {
 				const button = fragment.children[0];
 				const icon = button.children[0];
 
-				options?.button?.style &&
-					Object.assign(button.style, options.button.style);
+				options?.button?.style && Object.assign(button.style, options.button.style);
 
 				options?.icon?.style && Object.assign(icon.style, options.icon.style);
 
@@ -55,3 +54,5 @@ export default class Self extends HTMLElement {
 		this.append(fragment);
 	}
 }
+
+customElements.define("application-sidebar-switch", Self);

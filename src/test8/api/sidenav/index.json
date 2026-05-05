@@ -1,0 +1,65 @@
+[
+	{
+		"id": "block1",
+		"items": [
+			{
+				"id": "block1.item1",
+				"title": "Administrace",
+				"link": "block://block2",
+				"css": "link--administrace"
+			},
+			{
+				"id": "block1.item2",
+				"title": "Link #1",
+				"beginGroup": false,
+				"items": [
+					{
+						"id": "block1.item2.item1",
+						"title": "Link #2",
+						"link": "http://localhost:8080"
+					},
+					{
+						"id": "block1.item2.item2",
+						"title": "Link #3",
+						"link": "http://localhost:8080",
+						"css": "link--item3"
+					},
+					{
+						"id": "block1.item2.item3",
+						"title": "Link #4",
+						"link": "http://localhost:8080",
+						"beginGroup": true
+					},
+					{
+						"id": "block1.item2.item4",
+						"title": "Link #5",
+						"link": "http://localhost:8080",
+						"beginGroup": false
+					}
+				]
+			},
+			{
+				"id": "block1.item3",
+				"title": "Link #4",
+				"link": "http://localhost:8080",
+				"beginGroup": true
+			}
+		]
+	},
+	{
+		"id": "block2",
+		"items": [
+			{
+				"id": "block2.item1",
+				"title": "Zpět",
+				"link": "block://block1",
+				"css": "link--back"
+			},
+			{
+				"id": "block2.item2",
+				"title": "Link #6",
+				"link": "http://localhost:8080"
+			}
+		]
+	}
+]
