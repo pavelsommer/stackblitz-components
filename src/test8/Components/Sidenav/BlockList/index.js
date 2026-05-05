@@ -4,7 +4,7 @@ const containerTemplate = createTemplate(`<ul></ul>`);
 const itemTemplate = createTemplate(`<li></li>`);
 
 export default class Self extends HTMLElement {
-	static containerTemplate = () =>
+	static #containerTemplate = () =>
 		useTemplate(containerTemplate, (fragment) => {
 			const list = fragment.children[0];
 
@@ -28,7 +28,7 @@ export default class Self extends HTMLElement {
 	#list = null;
 
 	connectedCallback() {
-		const { fragment, ...refs } = Self.containerTemplate();
+		const { fragment, ...refs } = Self.#containerTemplate();
 
 		this.#list = refs.list;
 
