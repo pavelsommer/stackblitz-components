@@ -34,7 +34,7 @@ hr {
 	background-color: var(--color-dark);
 }
 
-.app {
+#application {
 	display: grid;
 	height: 100vh;
 	grid-template-columns: auto 1fr;
@@ -47,7 +47,7 @@ hr {
 }
 
 /* Assign the areas */
-header {
+.application-header {
 	grid-area: header;
 	background: var(--background-gradient);
 	height: 40px;
@@ -56,7 +56,7 @@ header {
 	padding: 0 6px;
 }
 
-my-sidebar {
+.application-sidebar {
 	grid-area: sidebar;
 	background-color: var(--color-silver);
 	border-right: 1px solid var(--color-border);
@@ -64,7 +64,7 @@ my-sidebar {
 	width: 300px;
 }
 
-my-sidebar.collapsed {
+.application-sidebar.collapsed {
 	margin-left: -300px;
 }
 
@@ -84,7 +84,7 @@ my-sidebar.collapsed {
 	transition: fill 0.25s ease-in-out;
 }
 
-.sidebar-switch.sidebar-switch__collapsed .color1 {
+.sidebar-switch.collapsed .color1 {
 	fill: var(--color-base);
 }
 
@@ -94,7 +94,7 @@ main {
 	overflow-y: scroll;
 }
 
-footer {
+.application-footer {
 	grid-area: footer;
 	background: var(--background-gradient);
 	height: 40px;
