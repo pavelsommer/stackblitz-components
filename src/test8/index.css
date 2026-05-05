@@ -49,8 +49,11 @@ hr {
 /* Assign the areas */
 header {
 	grid-area: header;
-	background-color: red;
+	background: var(--background-gradient);
 	height: 40px;
+	display: flex;
+	align-items: center;
+	padding: 0 6px;
 }
 
 my-sidebar {
@@ -65,6 +68,26 @@ my-sidebar.collapsed {
 	margin-left: -300px;
 }
 
+.sidebar-switch {
+	outline: none;
+	border: 0 none;
+	width: 24px;
+	height: 24px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 4px;
+}
+
+.sidebar-switch .color1 {
+	fill: var(--color-dark);
+	transition: fill 0.25s ease-in-out;
+}
+
+.sidebar-switch.sidebar-switch__collapsed .color1 {
+	fill: var(--color-base);
+}
+
 main {
 	grid-area: main;
 	padding: 6px;
@@ -73,8 +96,11 @@ main {
 
 footer {
 	grid-area: footer;
-	background-color: red;
+	background: var(--background-gradient);
 	height: 40px;
+	display: flex;
+	align-items: center;
+	padding: 0 6px;
 }
 
 .skeleton {

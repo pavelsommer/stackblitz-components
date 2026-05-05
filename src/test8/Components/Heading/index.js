@@ -7,14 +7,21 @@ export default class Self extends HTMLElement {
 		useTemplate(template, (fragment) => {
 			const h1 = fragment.children[0];
 
-			const x = { h1 };
-
-			Object.assign(x, options);
+			options?.h1?.style && Object.assign(h1.style, options.h1.style);
 
 			return {
 				h1,
 			};
 		});
+
+	#options = {
+		h1: {
+			style: {
+				color: "green",
+				fontSize: "3rem",
+			},
+		},
+	};
 
 	connectedCallback() {
 		const { fragment, ...template } = Self.#template({
