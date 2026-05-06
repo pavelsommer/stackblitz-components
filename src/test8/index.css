@@ -1,4 +1,5 @@
 @import url("./../reset.css");
+@import url("./sidenav.css");
 
 :root {
 	--base-size: 14;
@@ -34,7 +35,7 @@ hr {
 	background-color: var(--color-dark);
 }
 
-#application {
+[is="application"] {
 	display: grid;
 	height: 100vh;
 	grid-template-columns: auto 1fr;
@@ -47,7 +48,7 @@ hr {
 }
 
 /* Assign the areas */
-.application-header {
+[is="application-header"] {
 	grid-area: header;
 	background: var(--background-gradient);
 	height: 40px;
@@ -56,7 +57,7 @@ hr {
 	padding: 0 6px;
 }
 
-.application-sidebar {
+[is="application-sidebar"] {
 	grid-area: sidebar;
 	background-color: var(--color-silver);
 	border-right: 1px solid var(--color-border);
@@ -64,11 +65,11 @@ hr {
 	width: 300px;
 }
 
-.application-sidebar.collapsed {
+[is="application-sidebar"].collapsed {
 	margin-left: -300px;
 }
 
-.sidebar-switch {
+[is^="sidebar-switch-"] {
 	outline: none;
 	border: 0 none;
 	width: 24px;
@@ -79,13 +80,18 @@ hr {
 	padding: 4px;
 }
 
-.sidebar-switch .color1 {
+[is^="sidebar-switch-"] .color1 {
 	fill: var(--color-dark);
 	transition: fill 0.25s ease-in-out;
 }
 
-.sidebar-switch.collapsed .color1 {
+[is^="sidebar-switch-"].collapsed .color1 {
 	fill: var(--color-base);
+}
+
+[is="application-heading"] {
+	border-bottom: 1px solid var(--color-dark);
+	padding-bottom: 0.25rem;
 }
 
 main {
@@ -94,7 +100,7 @@ main {
 	overflow-y: scroll;
 }
 
-.application-footer {
+[is="application-footer"] {
 	grid-area: footer;
 	background: var(--background-gradient);
 	height: 40px;

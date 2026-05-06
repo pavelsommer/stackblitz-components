@@ -1,20 +1,18 @@
 import { createTemplate, useTemplate } from "./../../Core";
 
-const template = createTemplate(`<application-sidebar-switch></application-sidebar-switch>`);
+const contentTemplate = createTemplate(`<button is="sidebar-switch-button"></button>`);
 
 export default class Self extends HTMLElement {
-	static #template = () =>
-		useTemplate(template, (fragment) => {
+	static #contentTemplate = () =>
+		useTemplate(contentTemplate, (fragment) => {
 			return {};
 		});
 
 	connectedCallback() {
-		this.className = "application-footer";
-
-		const { fragment, ...template } = Self.#template();
+		const { fragment } = Self.#contentTemplate();
 
 		this.append(fragment);
 	}
 }
 
-customElements.define("application-footer", Self);
+customElements.define("application-footer", Self, { extends: "footer" });

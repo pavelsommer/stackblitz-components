@@ -1,21 +1,22 @@
 import { createTemplate, useTemplate } from "./../../Core";
 
-const template = createTemplate(`<h1>Hello!</h1><hr />`);
+const template = createTemplate(`<span>Hello!</span>`);
 
-export default class Self extends HTMLElement {
+export default class Self extends HTMLHeadingElement {
 	static #template = (options) =>
 		useTemplate(template, (fragment) => {
-			const h1 = fragment.children[0];
+			const text = fragment.children[0];
 
-			options?.h1?.style && Object.assign(h1.style, options.h1.style);
+			options?.text && Object.assign(text, options.text);
+			options?.text?.style && Object.assign(text.style, options.text.style);
 
 			return {
-				h1,
+				text,
 			};
 		});
 
 	#options = {
-		h1: {
+		self: {
 			style: {
 				color: "green",
 				fontSize: "3rem",
@@ -24,10 +25,16 @@ export default class Self extends HTMLElement {
 	};
 
 	connectedCallback() {
-		const { fragment, ...template } = Self.#template(this.#options);
+		const { fragment } = Self.#template({
+			text: {
+				textContent: this.dataset.text || "Heading",
+			},
+		});
+
+		this.#options?.self?.style && Object.assign(this.style, this.#options.self.style);
 
 		this.append(fragment);
 	}
 }
 
-customElements.define("application-heading", Self);
+customElements.define("application-heading", Self, { extends: "h1" });

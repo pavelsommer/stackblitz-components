@@ -1,0 +1,9 @@
+[is="sidenav-block-list"] {
+	display: block;
+}
+
+[is="sidenav-block-item"] {
+	display: block;
+	padding: 6px;
+	border-bottom: 1px solid black;
+}

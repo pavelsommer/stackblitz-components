@@ -1,18 +1,9 @@
 import { createTemplate, useTemplate } from "./../../../Core";
+await import("./../BlockItem");
 
-const containerTemplate = createTemplate(`<ul></ul>`);
-const itemTemplate = createTemplate(`<li></li>`);
+const itemTemplate = createTemplate(`<li is="sidenav-block-item"></li>`);
 
-export default class Self extends HTMLElement {
-	static #containerTemplate = () =>
-		useTemplate(containerTemplate, (fragment) => {
-			const list = fragment.children[0];
-
-			return {
-				list,
-			};
-		});
-
+export default class Self extends HTMLUListElement {
 	static #itemTemplate = (options) =>
 		useTemplate(itemTemplate, (fragment) => {
 			const item = fragment.children[0];
@@ -21,55 +12,57 @@ export default class Self extends HTMLElement {
 			options?.style && Object.assign(item.style, options.style);
 
 			return {
-				item: item,
+				item,
 			};
 		});
 
 	#list = null;
 
 	connectedCallback() {
-		const { fragment, ...refs } = Self.#containerTemplate();
-
-		this.#list = refs.list;
-
-		this.append(fragment);
-		this.renderBlocks();
+		this.renderContent();
 	}
 
-	mapUser(source, target) {
-		target({
+	mapUser(source) {
+		return {
 			textContent: source.name,
-			className: "block",
-		});
+		};
+	}
+
+	mapBlock(source) {
+		return {
+			textContent: source.id,
+		};
 	}
 
 	async renderUsers(response, target) {
 		const users = await response.json();
-
-		for (const user of users) {
-			target({
-				textContent: user.name,
-				className: "block",
-			});
-		}
-	}
-
-	async renderBlocks() {
-		const response = await fetch("https://jsonplaceholder.typicode.com/users");
-		const users = await response.json();
 		const content = document.createDocumentFragment();
 
 		for (const user of users) {
-			const { fragment } = Self.#itemTemplate({
-				textContent: user.name,
-				className: "block",
-			});
-
+			const { fragment } = target(this.mapUser(user));
 			content.append(fragment);
 		}
 
-		this.#list.replaceChildren(content);
+		return content;
+	}
+
+	async renderBlocks(response, target) {
+		const blocks = await response.json();
+		const content = document.createDocumentFragment();
+
+		for (const block of blocks) {
+			const { fragment } = target(this.mapBlock(block));
+			content.append(fragment);
+		}
+
+		return content;
+	}
+
+	async renderContent() {
+		this.replaceChildren(
+			await this.renderBlocks(await fetch("/src/test8/api/sidenav/index.json"), Self.#itemTemplate),
+		);
 	}
 }
 
-customElements.define("sidenav-block-list", Self);
+customElements.define("sidenav-block-list", Self, { extends: "ul" });

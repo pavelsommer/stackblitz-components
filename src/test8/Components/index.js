@@ -1,13 +1,11 @@
 import { createTemplate, useTemplate } from "./../Core";
 
-const template = createTemplate(`<div id="application">
-	<application-header class="application-header"></application-header>
-	<application-sidebar class="application-sidebar" role="navigation"></application-sidebar>
+const contentTemplate = createTemplate(`<header is="application-header"></header>
+	<aside is="application-sidebar" role="navigation"></aside>
 	<main>
-		<application-heading></application-heading>
+		<h1 is="application-heading" data-text="Hello!"></h1>
 	</main>
-	<application-footer class="application-footer"></application-footer>
-</div>`);
+	<footer is="application-footer"></footer>`);
 
 await Promise.all([
 	import("./Heading/index.js"),
@@ -16,21 +14,27 @@ await Promise.all([
 	import("./Sidebar/index.js"),
 ]);
 
-export default class Self extends HTMLElement {
-	static #template = () =>
-		useTemplate(template, (fragment) => {
-			const application = fragment.children[0];
+export default class Self extends HTMLDivElement {
+	static #contentTemplate = () =>
+		useTemplate(contentTemplate, (fragment) => {
+			const header = fragment.children[0];
+			const sidebar = fragment.children[1];
+			const main = fragment.children[2];
+			const footer = fragment.children[3];
 
 			return {
-				application,
+				header,
+				sidebar,
+				main,
+				footer,
 			};
 		});
 
 	connectedCallback() {
-		const { fragment, ...template } = Self.#template();
+		const { fragment } = Self.#contentTemplate();
 
 		this.append(fragment);
 	}
 }
 
-customElements.define("my-application", Self);
+customElements.define("application", Self, { extends: "div" });

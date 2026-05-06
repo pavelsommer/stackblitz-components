@@ -8,7 +8,7 @@ const { props, watch } = state;
 
 export default class Self extends HTMLElement {
 	static #template = (() => {
-		const template = createTemplate(`<sidenav-block-list></sidenav-block-list>`);
+		const template = createTemplate(`<ul is="sidenav-block-list"></ul>`);
 
 		return () =>
 			useTemplate(template, (fragment) => {
@@ -22,8 +22,6 @@ export default class Self extends HTMLElement {
 	}
 
 	connectedCallback() {
-		this.className = "application-sidebar";
-
 		const { fragment, ...template } = Self.#template();
 
 		this.collapsed = props.collapsed;
@@ -35,4 +33,4 @@ export default class Self extends HTMLElement {
 	}
 }
 
-customElements.define("application-sidebar", Self);
+customElements.define("application-sidebar", Self, { extends: "aside" });
