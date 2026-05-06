@@ -36,6 +36,24 @@ export default class Self extends HTMLElement {
 		this.renderBlocks();
 	}
 
+	mapUser(source, target) {
+		target({
+			textContent: source.name,
+			className: "block",
+		});
+	}
+
+	async renderUsers(response, target) {
+		const users = await response.json();
+
+		for (const user of users) {
+			target({
+				textContent: user.name,
+				className: "block",
+			});
+		}
+	}
+
 	async renderBlocks() {
 		const response = await fetch("https://jsonplaceholder.typicode.com/users");
 		const users = await response.json();
@@ -50,7 +68,7 @@ export default class Self extends HTMLElement {
 			content.append(fragment);
 		}
 
-		this.#list.append(content);
+		this.#list.replaceChildren(content);
 	}
 }
 
