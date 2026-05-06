@@ -4,15 +4,26 @@ export default class Self extends HTMLLIElement {
 	constructor() {
 		super();
 
-		if (!this.hasAttribute("is")) this.setAttribute("is", "sidenav-block-item");
+		!this.hasAttribute("is") && this.setAttribute("is", "sidenav-block-item");
 	}
 
 	connectedCallback() {
-		Object.assign(this.style, {
-			padding: "0.5rem 1rem",
-			cursor: "pointer",
-			color: "green",
+		this.#connectState();
+	}
+
+	async #connectState() {
+		const { props, watch } = (await import("./../../Sidebar/State")).default;
+
+		this.#update(props.blockId === this.dataset.id);
+
+		watch("blockId", (event) => {
+			this.#update(event.detail.value === this.dataset.id);
 		});
+	}
+
+	#update(active) {
+		if (active) this.classList.add("active");
+		else this.classList.remove("active");
 	}
 }
 

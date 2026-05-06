@@ -1,6 +1,6 @@
 import { createTemplate, useTemplate } from "./../../Core";
 
-const contentTemplate = createTemplate(`<button is="sidebar-switch-button"></button>`);
+const contentTemplate = createTemplate(`<button is="sidebar-switch"></button>`);
 
 export default class Self extends HTMLElement {
 	static #contentTemplate = () =>

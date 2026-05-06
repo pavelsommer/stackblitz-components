@@ -63,13 +63,15 @@ hr {
 	border-right: 1px solid var(--color-border);
 	transition: margin 0.25s ease-in-out;
 	width: 300px;
+	display: flex;
+	flex-direction: column;
 }
 
 [is="application-sidebar"].collapsed {
 	margin-left: -300px;
 }
 
-[is^="sidebar-switch-"] {
+[is="sidebar-switch"] {
 	outline: none;
 	border: 0 none;
 	width: 24px;
@@ -80,7 +82,7 @@ hr {
 	padding: 4px;
 }
 
-[is^="sidebar-switch-"] .color1 {
+[is="sidebar-switch"] .color1 {
 	fill: var(--color-dark);
 	transition: fill 0.25s ease-in-out;
 }

@@ -1,45 +1,24 @@
-import { createTemplate, useTemplate, createState } from "./../../Core";
+await import("./../Store");
 
-export default class Self extends HTMLElement {
-	static #template = (() => {
-		const template = createTemplate(`<input type="text"></input>`);
-
-		return () =>
-			useTemplate(template, (fragment) => {
-				const input = fragment.children[0];
-
-				return {
-					input,
-				};
-			});
-	})();
-
-	template = {};
-
+export default class Self extends HTMLInputElement {
 	connectedCallback() {
-		const { fragment, ...template } = Self.#template();
-
-		this.template = { ...template };
-		this.append(fragment);
-
+		this.type = "text";
 		this.connectState();
 	}
 
 	async connectState() {
-		await Promise.all([customElements.whenDefined("my-state")]);
-
 		const stateEl = document.getElementById(this.dataset.storeId);
 		const { props, watch } = stateEl.state;
 
-		this.template.input.value = props[this.dataset.propValue] ?? "";
-		this.template.input.addEventListener("input", (event) => {
+		this.value = props[this.dataset.propValue] ?? "";
+		this.addEventListener("input", (event) => {
 			props[this.dataset.propValue] = event.target.value;
 		});
 
 		watch(this.dataset.propValue, (event) => {
-			this.template.input.value = event.detail.value ?? "";
+			this.value = event.detail.value ?? "";
 		});
 	}
 }
 
-customElements.define("application-textbox", Self);
+customElements.define("textbox", Self, { extends: "input" });

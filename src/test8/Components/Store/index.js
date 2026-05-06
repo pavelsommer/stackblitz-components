@@ -4,6 +4,14 @@ export default class Self extends HTMLElement {
 	#props = null;
 	#watch = null;
 
+	#options = {
+		self: {
+			style: {
+				display: "none",
+			},
+		},
+	};
+
 	get state() {
 		return {
 			props: this.#props,
@@ -15,6 +23,7 @@ export default class Self extends HTMLElement {
 		const props = {};
 
 		Object.assign(props, this.dataset);
+		Object.assignDeep(this, this.#options.self);
 
 		({ props: this.#props, watch: this.#watch } = createState(props));
 	}
