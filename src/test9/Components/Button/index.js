@@ -1,48 +1,59 @@
-const defineComponent = (baseClass, tagName, extendName, body) => {
-  class Self extends baseClass {
-    #abortController = new AbortController();
-    #abortSignal = null;
+const defineComponent = (baseClass, body, options = {}) => {
+	const { tagName, extendsName } = options;
 
-    get abortSignal() {
-      return this.#abortSignal;
-    }
+	class Self extends baseClass {
+		#abortController = new AbortController();
+		#abortSignal = null;
 
-    connectedCallback() {
-      this.#abortSignal = this.#abortController.signal;
-      !this.hasAttribute("is") && this.setAttribute("is", tagName);
+		get abortSignal() {
+			return this.#abortSignal;
+		}
 
-      Object.assignDeep(this, {
-        textContent: "Hello!",
-      });
-    }
+		connectedCallback() {
+			this.#abortSignal = this.#abortController.signal;
 
-    disconnectedCallback() {
-      this.#abortController.abort();
-      this.#abortController = new AbortController();
-      this.#abortSignal = this.#abortController.signal;
-    }
-  }
+			tagName &&
+				extendsName &&
+				!this.hasAttribute("is") &&
+				this.setAttribute("is", tagName);
 
-  const impl = body(Self);
+			Object.assignDeep(this, {
+				textContent: "Hello!",
+			});
+		}
 
-  customElements.define(tagName, impl, { extends: extendName });
+		disconnectedCallback() {
+			this.#abortController.abort();
+			this.#abortController = new AbortController();
+			this.#abortSignal = this.#abortController.signal;
+		}
+	}
 
-  return impl;
+	const impl = body(Self);
+
+	tagName &&
+		(extendsName
+			? customElements.define(tagName, impl, { extends: extendsName })
+			: customElements.define(tagName, impl));
+
+	return impl;
 };
 
 export default defineComponent(
-  HTMLButtonElement,
-  "button-red",
-  "button",
-  (Base) => {
-    return class Self extends Base {
-      connectedCallback() {
-        super.connectedCallback();
+	HTMLButtonElement,
+	(Base) => {
+		return class Self extends Base {
+			connectedCallback() {
+				super.connectedCallback();
 
-        this.addEventListener("click", (event) => console.log("Hello!"), {
-          signal: this.abortSignal,
-        });
-      }
-    };
-  },
+				this.addEventListener("click", (event) => console.log("Hello!"), {
+					signal: this.abortSignal,
+				});
+			}
+		};
+	},
+	{
+		tagName: "button-red",
+		extendsName: "button",
+	},
 );
