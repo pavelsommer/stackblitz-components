@@ -1,14 +1,3 @@
-class Component {
-	static assign(target, source) {
-		const { style, dataset, ...props } = source;
-
-		style && Object.assign(target.style, style);
-		dataset && Object.assign(target.dataset, dataset);
-
-		Object.assign(target, props);
-	}
-}
-
 const createTemplate = (innerHTML) => {
 	const template = document.createElement("template");
 
@@ -81,42 +70,44 @@ const createReducer = (props, reducer) => {
 	return new Proxy(props, handler);
 };
 
-const defineComponent = (baseClass, body, options = {}) => {
-	const { tagName, extendsName } = options;
+const componentBase = (baseClass, tagName, impl) => {
+	return impl(
+		class extends baseClass {
+			#abortController = new AbortController();
+			#abortSignal = null;
 
-	class Self extends baseClass {
-		#abortController = new AbortController();
-		#abortSignal = null;
+			get abortSignal() {
+				return this.#abortSignal;
+			}
 
-		get abortSignal() {
-			return this.#abortSignal;
-		}
+			connectedCallback() {
+				this.#abortSignal = this.#abortController.signal;
+				tagName && !this.hasAttribute("is") && this.setAttribute("is", tagName);
+			}
 
-		connectedCallback() {
-			this.#abortSignal = this.#abortController.signal;
-
-			tagName && extendsName && !this.hasAttribute("is") && this.setAttribute("is", tagName);
-
-			Object.assignDeep(this, {
-				textContent: "Hello!",
-			});
-		}
-
-		disconnectedCallback() {
-			this.#abortController.abort();
-			this.#abortController = new AbortController();
-			this.#abortSignal = this.#abortController.signal;
-		}
-	}
-
-	const impl = body(Self);
-
-	tagName &&
-		(extendsName
-			? customElements.define(tagName, impl, { extends: extendsName })
-			: customElements.define(tagName, impl));
-
-	return impl;
+			disconnectedCallback() {
+				this.#abortController.abort();
+				this.#abortController = new AbortController();
+				this.#abortSignal = this.#abortController.signal;
+			}
+		},
+	);
 };
 
-export { Component, createTemplate, useTemplate, createState, createReducer, defineComponent };
+const registerComponent = (Class, tagName, extendsName) => {
+	tagName &&
+		(extendsName
+			? customElements.define(tagName, Class, { extends: extendsName })
+			: customElements.define(tagName, Class));
+
+	return Class;
+};
+
+export {
+	createTemplate,
+	useTemplate,
+	createState,
+	createReducer,
+	componentBase,
+	registerComponent,
+};
