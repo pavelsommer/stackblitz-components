@@ -8,11 +8,13 @@ const contentTemplate = createTemplate(`<header is="application-header"></header
 	<footer is="application-footer"></footer>`);
 
 await Promise.all([
-	import("./Heading/index.js"),
+	import("./Heading"),
 	import("./Header/index.js"),
 	import("./Footer/index.js"),
 	import("./Sidebar/index.js"),
 ]);
+
+console.log("a");
 
 export default class Self extends HTMLDivElement {
 	static #contentTemplate = () =>
