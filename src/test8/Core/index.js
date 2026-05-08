@@ -103,11 +103,20 @@ const registerComponent = (Class, tagName, extendsName) => {
 	return Class;
 };
 
+const defineBehavior = (Base) => {
+	return class extends Base {
+		connectedCallback() {
+			console.log("Hello!");
+		}
+	};
+};
+
 export {
 	createTemplate,
 	useTemplate,
 	createState,
 	createReducer,
 	componentBase,
+	defineBehavior,
 	registerComponent,
 };

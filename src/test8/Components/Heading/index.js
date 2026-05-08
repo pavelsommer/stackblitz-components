@@ -1,4 +1,10 @@
-import { createTemplate, useTemplate, registerComponent, componentBase } from "./../../Core";
+import {
+	createTemplate,
+	useTemplate,
+	registerComponent,
+	componentBase,
+	defineBehavior,
+} from "./../../Core";
 
 const template =
 	createTemplate(`<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" id="house-market-growth">
@@ -44,6 +50,16 @@ const component = componentBase(
 		},
 );
 
+const behavior = (Base) =>
+	class extends defineBehavior(Base) {
+		connectedCallback() {
+			super.connectedCallback();
+		}
+	};
+
 export default component;
 
 registerComponent(component, "application-heading", "h1");
+customElements.define("application-heading-h1", class extends behavior(HTMLHeadingElement) {}, {
+	extends: "h1",
+});
