@@ -20,13 +20,13 @@ export default class Self extends HTMLUListElement {
 		});
 
 	connectedCallback() {
-		this.#connectState();
 		this.#renderContent();
 	}
 
 	mapBlock(source) {
 		return {
 			textContent: source.id,
+
 			dataset: {
 				id: source.id,
 			},
@@ -35,8 +35,12 @@ export default class Self extends HTMLUListElement {
 
 	async renderBlocks(response, target) {
 		const blocks = await response.json();
+		const { props } = (await import("./../../Sidebar/State")).default;
+
 		const content = document.createDocumentFragment();
 		const defaultId = blocks[0]?.id;
+
+		!props.blockId && (props.blockId = defaultId);
 
 		for (const block of blocks) {
 			const { fragment } = target(this.mapBlock(block));
@@ -48,14 +52,11 @@ export default class Self extends HTMLUListElement {
 
 	async #renderContent() {
 		this.replaceChildren(
-			await this.renderBlocks(await fetch("/src/test8/api/sidenav/index.json"), Self.#itemTemplate),
+			await this.renderBlocks(
+				await fetch("/src/test8/api/sidenav/index.json"),
+				Self.#itemTemplate,
+			),
 		);
-	}
-
-	async #connectState() {
-		const { props } = (await import("./../../Sidebar/State")).default;
-
-		!props.blockId && (props.blockId = "default");
 	}
 }
 

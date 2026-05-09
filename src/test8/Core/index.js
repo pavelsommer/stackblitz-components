@@ -70,43 +70,23 @@ const createReducer = (props, reducer) => {
 	return new Proxy(props, handler);
 };
 
-const componentBase = (baseClass, tagName, impl) => {
-	return impl(
-		class extends baseClass {
-			#abortController = new AbortController();
-			#abortSignal = null;
-
-			get abortSignal() {
-				return this.#abortSignal;
-			}
-
-			connectedCallback() {
-				this.#abortSignal = this.#abortController.signal;
-				tagName && !this.hasAttribute("is") && this.setAttribute("is", tagName);
-			}
-
-			disconnectedCallback() {
-				this.#abortController.abort();
-				this.#abortController = new AbortController();
-				this.#abortSignal = this.#abortController.signal;
-			}
-		},
-	);
-};
-
-const registerComponent = (Class, tagName, extendsName) => {
-	tagName &&
-		(extendsName
-			? customElements.define(tagName, Class, { extends: extendsName })
-			: customElements.define(tagName, Class));
-
-	return Class;
-};
-
 const defineBehavior = (Base) => {
 	return class extends Base {
+		#abortController = new AbortController();
+		#abortSignal = null;
+
+		get abortSignal() {
+			return this.#abortSignal;
+		}
+
 		connectedCallback() {
-			console.log("Hello!");
+			this.#abortSignal = this.#abortController.signal;
+		}
+
+		disconnectedCallback() {
+			this.#abortController.abort();
+			this.#abortController = new AbortController();
+			this.#abortSignal = this.#abortController.signal;
 		}
 	};
 };
@@ -116,7 +96,5 @@ export {
 	useTemplate,
 	createState,
 	createReducer,
-	componentBase,
 	defineBehavior,
-	registerComponent,
 };
