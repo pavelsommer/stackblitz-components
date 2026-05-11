@@ -23,40 +23,37 @@ export default class Self extends HTMLUListElement {
 		this.#renderContent();
 	}
 
-	mapBlock(source) {
+	mapBlock(source, index) {
 		return {
-			textContent: source.id,
-
 			dataset: {
-				id: source.id,
+				index: index.toString(),
+				id: source,
 			},
 		};
 	}
 
-	async renderBlocks(response, target) {
-		const blocks = await response.json();
+	async renderBlocks(target) {
+		const sidenav = (await import("./../Items")).default;
 		const { props } = (await import("./../../Sidebar/State")).default;
 
 		const content = document.createDocumentFragment();
-		const defaultId = blocks[0]?.id;
 
-		!props.blockId && (props.blockId = defaultId);
+		!props.blockId && (props.blockId = sidenav.refs["_"][0]);
 
-		for (const block of blocks) {
-			const { fragment } = target(this.mapBlock(block));
+		let index = 0;
+
+		for (const block of sidenav.refs["_"]) {
+			const { fragment } = target(this.mapBlock(block, index));
 			content.append(fragment);
+
+			index++;
 		}
 
 		return content;
 	}
 
 	async #renderContent() {
-		this.replaceChildren(
-			await this.renderBlocks(
-				await fetch("/src/test8/api/sidenav/index.json"),
-				Self.#itemTemplate,
-			),
-		);
+		this.replaceChildren(await this.renderBlocks(Self.#itemTemplate));
 	}
 }
 

@@ -9,6 +9,9 @@
 	white-space: nowrap;
 	overflow: hidden;
 	overflow-y: scroll;
+}
+
+[is="sidenav-block-item"].mounted {
 	transition: all 0.25s ease-in-out;
 }
 

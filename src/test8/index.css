@@ -61,10 +61,10 @@ hr {
 	grid-area: sidebar;
 	background-color: var(--color-silver);
 	border-right: 1px solid var(--color-border);
-	transition: margin 0.25s ease-in-out;
 	width: 300px;
 	display: flex;
 	flex-direction: column;
+	transition: margin 0.25s ease-in-out;
 }
 
 [is="application-sidebar"].collapsed {
