@@ -14,61 +14,61 @@ const contentTemplate = createTemplate(`<div class="items">
 </div>`);
 
 export default class Self extends HTMLLIElement {
-  static #renderTitle = (sidenav, options) => {
-    const { fragment, titleEl } = useTemplate(titleTemplate, (fragment) => {
-      return {
-        titleEl: fragment.children[0],
-      };
-    });
+	static #renderTitle = (sidenav, options) => {
+		const { fragment, titleEl } = useTemplate(titleTemplate, (fragment) => {
+			return {
+				titleEl: fragment.children[0],
+			};
+		});
 
-    titleEl.textContent = options.textContent ?? "";
-    titleEl.addEventListener("click", () => {
-      console.log("Hello!");
-    });
+		titleEl.textContent = options.textContent ?? "";
+		titleEl.addEventListener("click", () => {
+			console.log("Hello!");
+		});
 
-    return fragment;
-  };
+		return fragment;
+	};
 
-  static #renderContent = (sidenav, options) => {
-    const { fragment, itemsEl } = useTemplate(contentTemplate, (fragment) => {
-      return {
-        itemsEl: fragment.children[0],
-      };
-    });
+	static #renderContent = (sidenav, options) => {
+		const { fragment, itemsEl } = useTemplate(contentTemplate, (fragment) => {
+			return {
+				itemsEl: fragment.children[0],
+			};
+		});
 
-    return fragment;
-  };
+		return fragment;
+	};
 
-  connectedCallback() {
-    this.#connectState();
-    this.#render();
-  }
+	connectedCallback() {
+		this.#connectState();
+		this.#render();
+	}
 
-  async #connectState() {
-    const { props, watch } = (await import("./../../Sidebar/State")).default;
+	async #connectState() {
+		const { props, watch } = (await import("./../../../Stores/Sidenav/Blocks")).default;
 
-    this.#update(props.blockId === this.dataset.id);
-    this.classList.add("mounted");
+		this.#update(props.blockId === this.dataset.id);
+		this.classList.add("mounted");
 
-    watch("blockId", (event) => {
-      this.#update(event.detail.value === this.dataset.id);
-    });
-  }
+		watch("blockId", (event) => {
+			this.#update(event.detail.value === this.dataset.id);
+		});
+	}
 
-  async #render() {
-    const sidenav = (await import("./../Items")).default;
-    const refs = sidenav.refs[this.dataset.id];
-    const items = sidenav.items;
+	async #render() {
+		const sidenav = (await import("./../../../Services/Sidenav/Items")).default;
+		const refs = sidenav.refs[this.dataset.id];
+		const items = sidenav.items;
 
-    for (const ref of refs) {
-      this.append(Self.#renderContent(sidenav, {}));
-    }
-  }
+		for (const ref of refs) {
+			this.append(Self.#renderContent(sidenav, {}));
+		}
+	}
 
-  #update(active) {
-    if (active) this.classList.add("active");
-    else this.classList.remove("active");
-  }
+	#update(active) {
+		if (active) this.classList.add("active");
+		else this.classList.remove("active");
+	}
 }
 
 customElements.define("sidenav-block-item", Self, { extends: "li" });

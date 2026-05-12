@@ -40,7 +40,7 @@ const Switch = (Base) =>
 		}
 
 		async #connectState() {
-			const { props, watch } = (await import("./../State")).default;
+			const { props, watch } = (await import("./../../../Stores/Sidebar")).default;
 
 			this.#update(props.collapsed);
 			this.addEventListener("click", () => {

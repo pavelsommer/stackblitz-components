@@ -1,5 +1,5 @@
 import { createTemplate, useTemplate } from "./../../Core";
-import state from "./State";
+import state from "./../../Stores/Sidebar";
 
 await import("./Switch");
 await import("./../Sidenav/BlockList");

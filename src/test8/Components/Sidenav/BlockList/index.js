@@ -33,8 +33,8 @@ export default class Self extends HTMLUListElement {
 	}
 
 	async renderBlocks(target) {
-		const sidenav = (await import("./../Items")).default;
-		const { props } = (await import("./../../Sidebar/State")).default;
+		const sidenav = (await import("./../../../Services/Sidenav/Items")).default;
+		const { props } = (await import("./../../../Stores/Sidebar")).default;
 
 		const content = document.createDocumentFragment();
 
