@@ -9,17 +9,21 @@ const createTemplate = (innerHTML) => {
 const useTemplate = (template, refs) => {
 	const fragment = template.content.cloneNode(true);
 
-	return {
-		fragment,
-		...refs(fragment),
-	};
+	return refs
+		? {
+				fragment,
+				...refs(fragment),
+			}
+		: {
+				fragment,
+			};
 };
 
-const useArray = (array, mapFn) => {
+const createFragment = (array, callbackFn) => {
 	const fragment = document.createDocumentFragment();
 
 	for (const item of array) {
-		fragment.append(mapFn(item));
+		fragment.append(callbackFn(item));
 	}
 
 	return fragment;
@@ -64,6 +68,15 @@ const createState = (initial = {}) => {
 	};
 };
 
+const useState = async (options) =>
+	(options &&
+		(options.id
+			? document.getElementById(options.id).state
+			: options.url
+				? (await import(/* @vite-ignore */ options.url)).default
+				: null)) ??
+	createState();
+
 const createReducer = (props, reducer) => {
 	const handler = {
 		get: (target, key, receiver) => {
@@ -80,7 +93,7 @@ const createReducer = (props, reducer) => {
 	return new Proxy(props, handler);
 };
 
-const defineBehavior = (Base) => {
+const createBehavior = (Base) => {
 	return class extends Base {
 		#abortController = new AbortController();
 		#abortSignal = null;
@@ -91,20 +104,32 @@ const defineBehavior = (Base) => {
 
 		connectedCallback() {
 			this.#abortSignal = this.#abortController.signal;
+			this.mounted();
 		}
 
 		disconnectedCallback() {
 			this.#abortController.abort();
 			this.#abortController = new AbortController();
 			this.#abortSignal = this.#abortController.signal;
+			this.unmounted();
 		}
+
+		async mounted() {}
+
+		async unmounted() {}
 	};
 };
+
+const createElement = (behavior, HTMLBase) =>
+	class extends behavior(HTMLBase) {};
 
 export {
 	createTemplate,
 	useTemplate,
+	createFragment,
 	createState,
+	useState,
 	createReducer,
-	defineBehavior,
+	createBehavior,
+	createElement,
 };

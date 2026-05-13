@@ -35,7 +35,7 @@ hr {
 	background-color: var(--color-dark);
 }
 
-[is="application"] {
+[is="app-default"] {
 	display: grid;
 	height: 100vh;
 	grid-template-columns: auto 1fr;
@@ -48,7 +48,7 @@ hr {
 }
 
 /* Assign the areas */
-[is="application-header"] {
+[is="app-header"] {
 	grid-area: header;
 	background: var(--background-gradient);
 	height: 40px;
@@ -57,7 +57,7 @@ hr {
 	padding: 0 6px;
 }
 
-[is="application-sidebar"] {
+[is="app-sidebar"] {
 	grid-area: sidebar;
 	background-color: var(--color-silver);
 	border-right: 1px solid var(--color-border);
@@ -67,7 +67,7 @@ hr {
 	transition: margin 0.25s ease-in-out;
 }
 
-[is="application-sidebar"].collapsed {
+[is="app-sidebar"].collapsed {
 	margin-left: -300px;
 }
 
@@ -91,18 +91,18 @@ hr {
 	fill: var(--color-base);
 }
 
-[is="application-heading"] {
+[is="app-heading"] {
 	border-bottom: 1px solid var(--color-dark);
 	padding-bottom: 0.25rem;
 }
 
 main {
 	grid-area: main;
-	padding: 6px;
+	padding: 0 6px 6px 6px;
 	overflow-y: scroll;
 }
 
-[is="application-footer"] {
+[is="app-footer"] {
 	grid-area: footer;
 	background: var(--background-gradient);
 	height: 40px;

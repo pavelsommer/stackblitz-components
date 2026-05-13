@@ -6,17 +6,18 @@
 		<meta name="viewport" content="width=device-width" />
 		<link
 			rel="preload"
-			href="./src/test8/index.css"
+			href="./src/test9/index.css"
 			as="style"
 			onload="
 				this.onload = null;
 				this.rel = 'stylesheet';
 			"
 		/>
-		<noscript><link rel="stylesheet" href="./src/test8/index.css" /></noscript>
-		<script type="module" src="./src/test8/index.js"></script>
+		<noscript><link rel="stylesheet" href="./src/test9/index.css" /></noscript>
+		<script type="module" src="./src/test9/index.js"></script>
 	</head>
 	<body>
-		<div is="application"></div>
+		<app-state id="state1" data-title="xyz"></app-state>
+		<div is="app-default" data-state-id="state1"></div>
 	</body>
 </html>

@@ -2,7 +2,8 @@
   "scripts": {
     "start": "vite",
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "lighthouse": "lighthouse http://localhost:5173 --view --chrome-flags=\"--headless --disable-gpu --no-sandbox --disable-extensions\" --output=html --output-path=\"./reports/lighthouse/index.html\" --throttling-method=provided network --preset=desktop"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.2.2",

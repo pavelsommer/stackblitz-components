@@ -33,14 +33,16 @@ const Switch = (Base) =>
 		connectedCallback() {
 			const { fragment } = Self.contentTemplate(this.#options);
 
-			this.#options?.self?.style && Object.assign(this.style, this.#options.self.style);
+			this.#options?.self?.style &&
+				Object.assign(this.style, this.#options.self.style);
 
 			this.append(fragment);
 			this.#connectState();
 		}
 
 		async #connectState() {
-			const { props, watch } = (await import("./../../../Stores/Sidebar")).default;
+			const { props, watch } = (await import("./../../../Stores/Sidebar"))
+				.default;
 
 			this.#update(props.collapsed);
 			this.addEventListener("click", () => {

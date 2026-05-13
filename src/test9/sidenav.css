@@ -1,0 +1,21 @@
+[is="sidenav-block-list"] {
+	display: flex;
+	flex: 1;
+}
+
+[is="sidenav-block-item"] {
+	flex: 0;
+	opacity: 0;
+	white-space: nowrap;
+	overflow: hidden;
+	overflow-y: scroll;
+}
+
+[is="sidenav-block-item"].mounted {
+	transition: all 0.25s ease-in-out;
+}
+
+[is="sidenav-block-item"].active {
+	flex: 1;
+	opacity: 1;
+}
