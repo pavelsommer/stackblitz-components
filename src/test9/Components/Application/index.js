@@ -17,18 +17,25 @@ const template = createTemplate(
 export default (Base) =>
 	class Self extends createBehavior(Base) {
 		static #template = (dataset) => {
-			const result = useTemplate(template, (fragment) => {
+			const fragment = useTemplate(template, (fragment) => {
 				const heading = fragment.children[2].children[0];
+				const sidebar = fragment.children[1];
 
 				dataset && Object.assign(heading.dataset, dataset);
 
 				return {
 					heading,
 					setTitle: (value) => (heading.textContent = value),
+					setSidebar: (value) => {
+						if (value) sidebar.classList.remove("collapsed");
+						else sidebar.classList.add("collapsed");
+					},
 				};
 			});
 
-			return result;
+			fragment.setSidebar(dataset.sidebar);
+
+			return fragment;
 		};
 
 		async mounted() {
@@ -36,8 +43,9 @@ export default (Base) =>
 				id: this.dataset.stateId,
 			});
 
-			const { fragment, setTitle } = Self.#template({
+			const { fragment, setTitle, setSidebar } = Self.#template({
 				title: props.title,
+				sidebar: Boolean(props.sidebar?.trim()),
 			});
 
 			this.append(fragment);
@@ -46,6 +54,14 @@ export default (Base) =>
 				"title",
 				(event) => {
 					setTitle(event.detail.value);
+				},
+				this.abortSignal,
+			);
+
+			watch(
+				"sidebar",
+				(event) => {
+					setSidebar(event.detail.value);
 				},
 				this.abortSignal,
 			);
