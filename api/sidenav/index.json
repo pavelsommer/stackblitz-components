@@ -1,0 +1,11 @@
+[
+	["block1", "block2"],
+	{
+		"block1": ["item1", "item2"]
+	},
+	{
+		"block1": {
+			"title": "Block #1"
+		}
+	}
+]

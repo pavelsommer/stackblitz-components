@@ -6,14 +6,15 @@
     "lighthouse": "lighthouse http://localhost:5173 --view --chrome-flags=\"--headless --disable-gpu --no-sandbox --disable-extensions\" --output=html --output-path=\"./reports/lighthouse/index.html\" --throttling-method=provided network --preset=desktop"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.2.2",
+    "@tailwindcss/vite": "^4.3.0",
     "@webreflection/custom-elements-builtin": "^0.4.1",
+    "clsx": "^2.1.1",
     "servor": "^4.0.2",
     "solid-js": "^1.9.12",
     "sylviejs": "^0.0.19",
-    "tailwindcss": "^4.2.2",
+    "tailwindcss": "^4.3.0",
     "valibot": "^1.4.0",
-    "vite": "^8.0.10",
+    "vite": "^8.0.12",
     "vite-plugin-solid": "^2.11.12"
   }
 }
