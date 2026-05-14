@@ -1,23 +1,23 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<title>Home</title>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link
-			rel="preload"
-			href="./src/index.css"
-			as="style"
-			onload="
-				this.onload = null;
-				this.rel = 'stylesheet';
-			"
-		/>
-		<noscript><link rel="stylesheet" href="./src/index.css" /></noscript>
-		<script type="module" src="./src/index.js"></script>
-	</head>
-	<body>
-		<app-state id="state1" data-title="xyz" data-sidebar="true"></app-state>
-		<div is="app-default" data-state-id="state1"></div>
-	</body>
+  <head>
+    <title>Home</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link
+      rel="preload"
+      href="./src/index.css"
+      as="style"
+      onload="
+        this.onload = null;
+        this.rel = 'stylesheet';
+      "
+    />
+    <noscript><link rel="stylesheet" href="./src/index.css" /></noscript>
+    <script type="module" src="./src/index.js"></script>
+  </head>
+  <body>
+    <app-state id="state1" data-title="xyz" data-sidebar="true"></app-state>
+    <div is="app-default" data-state-id="state1"></div>
+  </body>
 </html>

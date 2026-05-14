@@ -45,7 +45,7 @@ export default (Base) =>
 
       const { fragment, setTitle, setSidebar } = Self.#template({
         title: props.title,
-        sidebar: Boolean(props.sidebar?.trim()),
+        sidebar: JSON.parse(props.sidebar?.trim() ?? "true"),
       });
 
       this.append(fragment);
