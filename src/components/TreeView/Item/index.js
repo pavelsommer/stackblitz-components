@@ -51,13 +51,14 @@ export default (Base) =>
 
       if (children.length < 1) return;
 
-      this.append(
-        Self.#childrenTemplate({
-          id: this.dataset.id,
-          label: this.dataset.label,
-          level: parseInt(this.dataset.level ?? "0") + 1,
-        }),
-      );
+      const dataset = {
+        id: this.dataset.id,
+        level: parseInt(this.dataset.level ?? "0") + 1,
+      };
+
+      this.dataset.label && (dataset.label = this.dataset.label);
+
+      this.append(Self.#childrenTemplate(dataset));
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
