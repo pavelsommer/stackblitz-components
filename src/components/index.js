@@ -53,5 +53,16 @@ customElements.define(
 
 customElements.define(
   "app-treeview",
-  createElement((await import("./TreeView")).default, HTMLElement),
+  createElement((await import("./TreeView")).default, HTMLUListElement),
+  {
+    extends: "ul",
+  },
+);
+
+customElements.define(
+  "app-treeitem",
+  createElement((await import("./TreeView/Item")).default, HTMLLIElement),
+  {
+    extends: "li",
+  },
 );
