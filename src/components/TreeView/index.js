@@ -1,8 +1,38 @@
-import {
-  createBehavior,
-  createFragment,
-  createTemplate,
-  useTemplate,
-} from "./../../lib";
+import { createBehavior, createFragment, createTemplate, useTemplate } from "./../../lib";
 
-export default (Base) => class extends createBehavior(Base) {};
+const itemTemplate = createTemplate(`<li is="app-treeitem"></li>`);
+
+export default (Base) =>
+	class Self extends createBehavior(Base) {
+		static #itemTemplate = (dataset) => {
+			const { fragment, element } = useTemplate(itemTemplate, (fragment) => {
+				const element = fragment.children[0];
+
+				dataset && Object.assign(element.dataset, dataset);
+
+				return {
+					element,
+				};
+			});
+
+			return fragment;
+		};
+
+		async mounted() {
+			await this.renderChildren();
+		}
+
+		async renderChildren() {
+			const { default: getItems } = await import("./../../services/TreeView");
+			const [children, items] = getItems(this.dataset.id);
+
+			this.append(
+				createFragment(children, (child) =>
+					Self.#itemTemplate({
+						id: child,
+						label: items[child].title,
+					}),
+				),
+			);
+		}
+	};
