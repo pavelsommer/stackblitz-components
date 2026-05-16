@@ -1,3 +1,5 @@
+import { importComponent } from "@lib";
+
 Object.assignDeep =
 	Object.assignDeep ||
 	function (target, source) {
@@ -8,4 +10,4 @@ Object.assignDeep =
 		style && target?.style && Object.assign(target.style, style);
 	};
 
-await import("./components");
+await importComponent();

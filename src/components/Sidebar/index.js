@@ -1,6 +1,6 @@
 import { createTemplate, useTemplate, createBehavior, createFragment, useState } from "./../../lib";
 
-const template = createTemplate(`<ul is="app-treeview"></ul>`);
+const template = createTemplate(`<ul is="app-expandmenu"></ul>`);
 
 export default (Base) =>
 	class Self extends createBehavior(Base) {

@@ -1,11 +1,17 @@
 [
-	["block1", "block2"],
+	["item1", "item2"],
 	{
-		"block1": ["item1", "item2"]
-	},
-	{
-		"block1": {
-			"title": "Block #1"
+		"item1": {
+			"title": "Item #1"
+		},
+
+		"item2": {
+			"title": "Item #2",
+			"items": ["item2/item1"]
+		},
+
+		"item2/item1": {
+			"title": "Item #2/Item #1"
 		}
 	}
 ]
