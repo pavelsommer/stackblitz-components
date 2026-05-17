@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>JS Bin</title>
+	</head>
+	<body>
+		<ul is="expand-menu" class="menu">
+			<li is="expand-item" class="item">
+				<div class="title" onclick="this.classList.toggle('expanded')">Nabídka #1</div>
+				<div is="expand-container" class="menu-container">
+					<ul is="expand-menu" class="menu">
+						<li is="expand-item" class="item">
+							<div class="title" onclick="this.classList.toggle('expanded')">Item #1</div>
+							<div is="expand-container" class="menu-container">
+								<ul is="expand-menu" class="menu">
+									<li is="expand-item" class="item">
+										<div class="title">alskdjf</div>
+									</li>
+								</ul>
+							</div>
+						</li>
+						<li is="expand-item" class="item">
+							<div class="title">Item #2</div>
+							<div is="expand-container" class="menu-container">
+								<ul is="expand-menu" class="menu">
+									<li is="expand-item" class="item">
+										<div class="title">alskdjf</div>
+									</li>
+								</ul>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</li>
+		</ul>
+	</body>
+</html>

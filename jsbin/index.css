@@ -1,0 +1,18 @@
+[is="expand-container"] {
+	display: grid;
+	grid-template-rows: 0fr;
+	transition: grid-template-rows 0.25s ease-in-out;
+}
+
+.title {
+	cursor: pointer;
+}
+
+.title.expanded + [is="expand-container"],
+[is="expand-container"].expanded {
+	grid-template-rows: 1fr;
+}
+
+[is="expand-menu"] {
+	overflow: hidden;
+}

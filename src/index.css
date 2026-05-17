@@ -2,167 +2,155 @@
 @import url("./sidenav.css");
 
 :root {
-  --base-size: 14;
-  --px-size: 13;
-  --size: calc(var(--px-size) / var(--base-size));
-  --font-family: "Roboto Condensed";
-  --font-size: calc(1px * var(--px-size));
-  --background-gradient: linear-gradient(to right, #c8633e, #8e1230);
-  --color-base: #c8633e;
-  --color-green: #a1b637;
-  --color-blue: #5486c3;
-  --color-dark: #a33419;
-  --color-silver: #f3f3f3;
-  --color-border: #dfe0e1;
+	--base-size: 14;
+	--px-size: 13;
+	--size: calc(var(--px-size) / var(--base-size));
+	--font-family: "Roboto Condensed";
+	--font-size: calc(1px * var(--px-size));
+	--background-gradient: linear-gradient(to right, #c8633e, #8e1230);
+	--color-base: #c8633e;
+	--color-green: #a1b637;
+	--color-blue: #5486c3;
+	--color-dark: #a33419;
+	--color-silver: #f3f3f3;
+	--color-border: #dfe0e1;
 }
 
 html {
-  font-family: var(--font-family);
-  font-size: var(--font-size);
+	font-family: var(--font-family);
+	font-size: var(--font-size);
 }
 
 body {
-  font-size: 1rem;
+	font-size: 1rem;
 }
 
 hr {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 1px;
-  line-height: 0;
-  border: 0 none;
-  background-color: var(--color-dark);
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 1px;
+	line-height: 0;
+	border: 0 none;
+	background-color: var(--color-dark);
 }
 
-[is="app-default"] {
-  display: grid;
-  height: 100vh;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: auto 1fr auto;
+.ui-app {
+	display: grid;
+	height: 100vh;
+	grid-template-columns: auto 1fr;
+	grid-template-rows: auto 1fr auto;
 
-  grid-template-areas:
-    "header header"
-    "sidebar main"
-    "footer footer";
+	grid-template-areas:
+		"header header"
+		"sidebar main"
+		"footer footer";
 }
 
 /* Assign the areas */
-[is="app-header"] {
-  grid-area: header;
-  background: var(--background-gradient);
-  height: 40px;
-  display: flex;
-  align-items: center;
-  padding: 0 6px;
+.ui-app-header {
+	grid-area: header;
+	background: var(--background-gradient);
+	height: 40px;
+	display: flex;
+	align-items: center;
+	padding: 0 6px;
 }
 
-[is="app-sidebar"] {
-  grid-area: sidebar;
-  background-color: var(--color-silver);
-  border-right: 1px solid var(--color-border);
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  transition: margin 0.25s ease-in-out;
+.ui-sidebar {
+	grid-area: sidebar;
+	background-color: var(--color-silver);
+	border-right: 1px solid var(--color-border);
+	width: 300px;
+	display: flex;
+	flex-direction: column;
+	transition: margin 0.25s ease-in-out;
 }
 
-[is="app-sidebar"].collapsed {
-  margin-left: -300px;
+.ui-sidebar.collapsed {
+	margin-left: -300px;
 }
 
 [is="sidebar-switch"] {
-  outline: none;
-  border: 0 none;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px;
+	outline: none;
+	border: 0 none;
+	width: 24px;
+	height: 24px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 4px;
 }
 
 [is="sidebar-switch"] .color1 {
-  fill: var(--color-dark);
-  transition: fill 0.25s ease-in-out;
+	fill: var(--color-dark);
+	transition: fill 0.25s ease-in-out;
 }
 
 [is="sidebar-switch"].collapsed .color1 {
-  fill: var(--color-base);
+	fill: var(--color-base);
 }
 
 [is="app-heading"] {
-  border-bottom: 1px solid var(--color-dark);
-  padding-bottom: 0.25rem;
+	border-bottom: 1px solid var(--color-dark);
+	padding-bottom: 0.25rem;
 }
 
-main {
-  grid-area: main;
-  padding: 0 6px 6px 6px;
-  overflow-y: scroll;
+.ui-app-main {
+	grid-area: main;
+	padding: 0 6px 6px 6px;
+	overflow-y: scroll;
 }
 
-[is="app-footer"] {
-  grid-area: footer;
-  background: var(--background-gradient);
-  height: 40px;
-  display: flex;
-  align-items: center;
-  padding: 0 6px;
+.ui-app-footer {
+	grid-area: footer;
+	background: var(--background-gradient);
+	height: 40px;
+	display: flex;
+	align-items: center;
+	padding: 0 6px;
 }
 
 .skeleton {
-  background-color: #eee;
-  background-image: linear-gradient(90deg, #eee, #f5f5f5, #eee);
-  background-size: 200px 100%;
-  background-repeat: no-repeat;
-  border-radius: 4px;
-  display: inline-block;
-  line-height: 1;
-  width: 100%;
-  height: 50px;
-  animation: skeleton-animation 1.5s ease-in-out infinite;
+	background-color: #eee;
+	background-image: linear-gradient(90deg, #eee, #f5f5f5, #eee);
+	background-size: 200px 100%;
+	background-repeat: no-repeat;
+	border-radius: 4px;
+	display: inline-block;
+	line-height: 1;
+	width: 100%;
+	height: 50px;
+	animation: skeleton-animation 1.5s ease-in-out infinite;
 }
 
 @keyframes skeleton-animation {
-  0% {
-    background-position: -200px 0;
-  }
+	0% {
+		background-position: -200px 0;
+	}
 
-  100% {
-    background-position: calc(200px + 100%) 0;
-  }
+	100% {
+		background-position: calc(200px + 100%) 0;
+	}
 }
 
 table {
-  width: 100%;
-  border-collapse: collapse;
-  border-color: var(--color-border);
+	width: 100%;
+	border-collapse: collapse;
+	border-color: var(--color-border);
 }
 
 .th {
-  background-color: var(--color-silver);
-  background-repeat: no-repeat;
-  background-size: 8px;
-  background-position: center right 10px;
+	background-color: var(--color-silver);
+	background-repeat: no-repeat;
+	background-size: 8px;
+	background-position: center right 10px;
 }
 
 .th.th--up {
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBkPSJNOCAuNS41IDhINXY4aDZWOGg0LjV6IiBmaWxsPSIjZWQ2NTBiIi8+PC9zdmc+");
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBkPSJNOCAuNS41IDhINXY4aDZWOGg0LjV6IiBmaWxsPSIjZWQ2NTBiIi8+PC9zdmc+");
 }
 
 .th.th--down {
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBkPSJNOCAxNS41IDE1LjUgOEgxMVYwSDV2OEguNXoiIGZpbGw9IiNlZDY1MGIiLz48L3N2Zz4=");
-}
-
-[is="app-treeview"] > li > ul {
-  margin-left: 10px;
-}
-
-[is="app-treeview"] > li > ul > li > ul {
-  margin-left: 20px;
-}
-
-[is="app-treeview"] > li > ul > li > ul > li > ul {
-  margin-left: 30px;
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2Ij48cGF0aCBkPSJNOCAxNS41IDE1LjUgOEgxMVYwSDV2OEguNXoiIGZpbGw9IiNlZDY1MGIiLz48L3N2Zz4=");
 }

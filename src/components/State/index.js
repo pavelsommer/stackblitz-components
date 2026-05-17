@@ -23,7 +23,7 @@ export default class Self extends HTMLElement {
 		const props = {};
 
 		Object.assign(props, this.dataset);
-		Object.assignDeep(this, this.#options.self);
+		Object.assignProps(this, this.#options.self);
 
 		({ props: this.#props, watch: this.#watch } = createState(props));
 	}

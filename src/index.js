@@ -1,9 +1,9 @@
 import { importComponent } from "@lib";
 
-Object.assignDeep =
-	Object.assignDeep ||
-	function (target, source) {
-		const { style, dataset, ...props } = source || {};
+Object.assignProps =
+	Object.assignProps ||
+	function (target, source = {}) {
+		const { style, dataset, ...props } = source;
 
 		props && target && Object.assign(target, props);
 		dataset && target?.dataset && Object.assign(target.dataset, dataset);

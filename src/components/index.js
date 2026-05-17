@@ -1,14 +1,11 @@
 import { importComponent, createElement } from "@lib";
 import State from "@components/State";
 
-customElements.define("app-state", State);
+customElements.define("ui-state", State);
 
 customElements.define(
-	"app-default",
-	createElement((await importComponent("Application")).default, HTMLDivElement),
-	{
-		extends: "div",
-	},
+	"ui-app",
+	createElement((await importComponent("Application")).default, HTMLElement),
 );
 
 customElements.define(
@@ -20,7 +17,7 @@ customElements.define(
 );
 
 customElements.define(
-	"app-header",
+	"ui-app-header",
 	createElement((await importComponent("Header")).default, HTMLElement),
 	{
 		extends: "header",
@@ -28,7 +25,7 @@ customElements.define(
 );
 
 customElements.define(
-	"app-sidebar",
+	"ui-sidebar",
 	createElement((await importComponent("Sidebar")).default, HTMLElement),
 	{
 		extends: "aside",
@@ -36,7 +33,7 @@ customElements.define(
 );
 
 customElements.define(
-	"app-footer",
+	"ui-app-footer",
 	createElement((await importComponent("Footer")).default, HTMLElement),
 	{
 		extends: "footer",
@@ -44,40 +41,21 @@ customElements.define(
 );
 
 customElements.define(
-	"app-sidenav",
-	createElement((await importComponent("Sidenav")).default, HTMLUListElement),
+	"ui-sidenav",
+	createElement((await importComponent("Sidenav")).default, HTMLElement),
+);
+
+customElements.define(
+	"ui-menu",
+	createElement((await importComponent("Menu")).default, HTMLUListElement),
 	{
 		extends: "ul",
 	},
 );
 
 customElements.define(
-	"app-treeview",
-	createElement((await importComponent("TreeView")).default, HTMLUListElement),
-	{
-		extends: "ul",
-	},
-);
-
-customElements.define(
-	"app-treeitem",
-	createElement((await importComponent("TreeView/Item")).default, HTMLLIElement),
-	{
-		extends: "li",
-	},
-);
-
-customElements.define(
-	"app-expandmenu",
-	createElement((await importComponent("ExpandMenu")).default, HTMLUListElement),
-	{
-		extends: "ul",
-	},
-);
-
-customElements.define(
-	"app-expanditem",
-	createElement((await importComponent("ExpandMenu/Item")).default, HTMLLIElement),
+	"ui-menu-item",
+	createElement((await importComponent("Menu/Item")).default, HTMLLIElement),
 	{
 		extends: "li",
 	},
