@@ -1,3 +1,44 @@
+.ui-menu {
+  overflow: hidden;
+}
+
+.menu-container {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.25s ease-in-out;
+}
+
+.ui-menu-item-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  height: 40px;
+}
+
+.menu-container.expanded {
+  grid-template-rows: 1fr;
+}
+
+.ui-menu-item-divider {
+  display: flex;
+  position: relative;
+  height: 1px;
+  background-color: rgb(220, 220, 220);
+  overflow-y: visible;
+  align-items: center;
+}
+
+.ui-menu-item-group-separator {
+  --width: 30%;
+  --height: 5px;
+  position: absolute;
+  height: var(--height);
+  width: var(--width);
+  left: calc(50% - calc(var(--width) / 2));
+  background-color: rgb(220, 220, 220);
+}
+
 /*.blocks {
 	display: flex;
 	flex: 1;

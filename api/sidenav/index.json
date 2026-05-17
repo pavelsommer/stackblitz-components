@@ -1,34 +1,39 @@
 [
-	["item1", "item2"],
-	{
-		"item1": {
-			"label": "Home",
-			"items": ["item1-1", "item1-2"]
-		},
+  ["item1", "item2", "item3"],
+  {
+    "item1": {
+      "label": "Home",
+      "items": ["item1-1", "item1-2"]
+    },
 
-		"item2": {
-			"label": "Admin",
-			"items": ["item2-1", "item2-2"]
-		},
+    "item2": {
+      "label": "Admin",
+      "separator": true,
+      "items": ["item2-1", "item2-2"]
+    },
 
-		"item1-1": {
-			"label": "item1-1",
-			"href": "block://block2"
-		},
+    "item1-1": {
+      "label": "item1-1",
+      "href": "block://block2"
+    },
 
-		"item1-2": {
-			"label": "item1-2",
-			"href": "block://block3"
-		},
+    "item1-2": {
+      "label": "item1-2",
+      "href": "block://block3"
+    },
 
-		"item2-1": {
-			"label": "item2-1",
-			"href": "block://block4"
-		},
+    "item2-1": {
+      "label": "item2-1",
+      "href": "block://block4"
+    },
 
-		"item2-2": {
-			"label": "item2-2",
-			"href": "block://block5"
-		}
-	}
+    "item2-2": {
+      "label": "item2-2",
+      "href": "block://block5"
+    },
+
+    "item3": {
+      "label": "Item #3"
+    }
+  }
 ]
