@@ -7,6 +7,11 @@ const template = createTemplate(
 export default (Base) =>
 	class Self extends createBehavior(Base) {
 		mounted() {
+			Object.assign(this.style, {
+				display: "flex",
+				flex: "1",
+			});
+
 			this.append(useTemplate(template)?.fragment);
 		}
 	};

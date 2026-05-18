@@ -46,9 +46,11 @@ const useTemplate = (template, refs) => {
 
 const createFragment = (array, callbackFn) => {
 	const fragment = document.createDocumentFragment();
+	let index = 0;
 
 	for (const item of array) {
-		fragment.append(callbackFn(item));
+		fragment.append(callbackFn(item, index));
+		index++;
 	}
 
 	return fragment;

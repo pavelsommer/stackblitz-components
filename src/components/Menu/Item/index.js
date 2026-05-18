@@ -43,10 +43,6 @@ export default (Base) =>
 				text: {
 					textContent: options.item.label,
 
-					style: {
-						marginLeft: `${(this.level - 1) * 16}px`,
-					},
-
 					dataset: {
 						level: this.level,
 					},
@@ -61,6 +57,7 @@ export default (Base) =>
 
 					Object.assignProps(text, props?.text);
 
+					title.style.marginLeft = `${(this.level - 1) * 16}px`;
 					options.hasSeparator && this.renderSeparator(divider);
 					options.hasChildren && this.renderItems(fragment, title);
 				}).fragment,

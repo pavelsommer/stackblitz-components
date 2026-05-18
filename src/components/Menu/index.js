@@ -17,8 +17,10 @@ export default (Base) =>
 			const items = getItems(this.dataset.id);
 
 			this.append(
-				createFragment(items[0], (item) => {
+				createFragment(items[0], (item, index) => {
 					const props = {
+						className: index === 0 ? "ui-menu-item expanded" : "ui-menu-item",
+
 						dataset: {
 							id: item,
 							label: items[1][item].label,
