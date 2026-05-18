@@ -1,39 +1,36 @@
-import {
-  createTemplate,
-  useTemplate,
-  createBehavior,
-  createFragment,
-  useState,
-} from "@lib";
+import { createTemplate, useTemplate, createBehavior, createFragment, useState } from "@lib";
 import { getItems } from "@services/Sidenav/Items";
 
-const template = createTemplate(
-  `<li is="ui-menu-item" class="ui-menu-item"></li>`,
-);
+const template = createTemplate(`<li is="ui-menu-item" class="ui-menu-item"></li>`);
 
 export default (Base) =>
-  class Self extends createBehavior(Base) {
-    async mounted() {
-      const { props, watch } = await useState({
-        id: this.dataset.stateId,
-      });
+	class Self extends createBehavior(Base) {
+		get level() {
+			return parseInt(this.dataset.level ?? "1");
+		}
 
-      const items = getItems(this.dataset.id);
+		async mounted() {
+			const { props, watch } = await useState({
+				id: this.dataset.stateId,
+			});
 
-      this.append(
-        createFragment(items[0], (item) => {
-          const props = {
-            dataset: {
-              id: item,
-              label: items[1][item].label,
-            },
-          };
+			const items = getItems(this.dataset.id);
 
-          return useTemplate(template, (fragment) => {
-            const element = fragment.children[0];
-            Object.assignProps(element, props);
-          }).fragment;
-        }),
-      );
-    }
-  };
+			this.append(
+				createFragment(items[0], (item) => {
+					const props = {
+						dataset: {
+							id: item,
+							label: items[1][item].label,
+							level: this.level,
+						},
+					};
+
+					return useTemplate(template, (fragment) => {
+						const element = fragment.children[0];
+						Object.assignProps(element, props);
+					}).fragment;
+				}),
+			);
+		}
+	};
